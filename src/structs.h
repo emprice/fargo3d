@@ -116,6 +116,8 @@ struct fluid {
   struct field2D *Vy0;
   struct field2D *Vz0;
 #endif
+  int num_passive;
+  struct field **passive;
 };
 
 struct field2D { //Multiple 2D fields on code (azimuthal averages, etc.)
@@ -151,18 +153,18 @@ struct buffer {
   int index;
 };
 
-struct force {			
+struct force {
   real fx_inner;		/**< x-component of the force arising from the inner disk, without Hill sphere avoidance  */
   real fy_inner;		/**< y-component of the force arising from the inner disk, without Hill sphere avoidance  */
   real fz_inner;
-  real fx_ex_inner;    /**< x-component of the force arising from the inner disk, with Hill sphere avoidance  */	
-  real fy_ex_inner;    /**< y-component of the force arising from the inner disk, with Hill sphere avoidance  */        
+  real fx_ex_inner;    /**< x-component of the force arising from the inner disk, with Hill sphere avoidance  */
+  real fy_ex_inner;    /**< y-component of the force arising from the inner disk, with Hill sphere avoidance  */
   real fz_ex_inner;
   real fx_outer;         /**< x-component of the force arising from the outer disk, without Hill sphere avoidance */
   real fy_outer;	        /**< y-component of the force arising from the outer disk, without Hill sphere avoidance */
   real fz_outer;
-  real fx_ex_outer;	/**< x-component of the force arising from the outer disk, with Hill sphere avoidance  */	
-  real fy_ex_outer;	/**< x-component of the force arising from the outer disk, with Hill sphere avoidance  */        
+  real fx_ex_outer;	/**< x-component of the force arising from the outer disk, with Hill sphere avoidance  */
+  real fy_ex_outer;	/**< x-component of the force arising from the outer disk, with Hill sphere avoidance  */
   real fz_ex_outer;
 };
 

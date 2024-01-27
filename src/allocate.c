@@ -5,9 +5,9 @@ Field *CreateFieldAlias(char *name, Field *clone, int type) {
   //real *array;
   char *string;
   int i,j,k;
-  
+
   field = (Field *) malloc(sizeof(Field));
-  if (field == NULL) 
+  if (field == NULL)
     prs_error("Insufficient memory for Field cloning");
   string = (char *) malloc(sizeof(char) * 80);
   if (string == NULL)
@@ -36,7 +36,7 @@ Field *CreateFieldAlias(char *name, Field *clone, int type) {
     field->fresh_inside_contour_gpu[i] = NO;
     field->fresh_outside_contour_gpu[i] = NO;
   }
-  
+
   field->type = type;
   masterprint("Grids %s and %s share their storage\n", clone->name, name);
   return field;
@@ -58,7 +58,7 @@ Fluid *CreateFluid(char *name, int fluidtype) {
   f->Density = CreateField(fieldname, DENS, 0,0,0);
 
   sprintf(fieldname,"%s%s",name,"energy");
-  f->Energy  = CreateField(fieldname, ENERGY, 0,0,0);  
+  f->Energy  = CreateField(fieldname, ENERGY, 0,0,0);
   f->VxMed   = CreateField2D ("VxMed", YZ);
 
 #ifdef X
@@ -94,7 +94,17 @@ Fluid *CreateFluid(char *name, int fluidtype) {
   f->Vz0  = CreateField2D ("vz0", YZ);
 #endif
 
+  f->passive = NULL;
+  f->num_passive = 0;
+
   return f;
+}
+
+void AddPassiveFluid(Fluid *parent, char *name) {
+  int np = parent->num_passive;
+  parent->passive = realloc(parent->passive, (np + 1) * sizeof(Field *));
+  parent->passive[np] = CreateField(name, DENS, 0, 0, 0);
+  parent->num_passive += 1;
 }
 
 Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
@@ -109,7 +119,7 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
   size_t pitch;
 
   field = (Field *) malloc(sizeof(Field));
-  if (field == NULL) 
+  if (field == NULL)
     prs_error("Insufficient memory for Field creation-step1.");
 
 #ifndef GPU
@@ -122,10 +132,10 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
 #endif
 #endif
 
-  if (array == NULL) 
+  if (array == NULL)
     prs_error("Insufficient memory for Field creation-step2.");
   string = (char *) malloc(sizeof(char) * 80);
-  if (string == NULL) 
+  if (string == NULL)
     prs_error("Insufficient memory for Field creation-step3.");
   sprintf(string, "%s", name);
   field->field_cpu = array;
@@ -136,7 +146,7 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
   *(field->owner) = field;
   field->line_origin = __LINE__;
   strncpy (field->file_origin, __FILE__, MAXLINELENGTH-1);
-  
+
   field->next = ListOfGrids;     //Linkedlist
   ListOfGrids = field;
 
@@ -160,7 +170,7 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
 #endif
 #ifdef Z
   }
-#endif  
+#endif
   masterprint("Field %s has been created\n", name);
   //Now on the GPU
 #ifdef GPU
@@ -216,15 +226,15 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
 
   if (sx)
     field->x = Xmin;
-  else 
+  else
     field->x = Xmed;
   if (sy)
     field->y = Ymin;
-  else 
+  else
     field->y = Ymed;
   if (sz)
     field->z = Zmin;
-  else 
+  else
     field->z = Zmed;
 
   return field;
@@ -255,7 +265,7 @@ Field2D *CreateField2D(char *name, int dim) {
   }
 
   field = (Field2D *) malloc(sizeof(Field));
-  if (field == NULL) 
+  if (field == NULL)
     prs_error("Insufficient memory for Field2D creation-step1.");
 
 #ifndef GPU
@@ -269,15 +279,15 @@ Field2D *CreateField2D(char *name, int dim) {
 #endif
 
 
-  if (array == NULL) 
+  if (array == NULL)
     prs_error("Insufficient memory for Field2D creation-step2.");
   string = (char *) malloc(sizeof(char) * 80);
-  if (string == NULL) 
+  if (string == NULL)
     prs_error("Insufficient memory for Field2D creation-step3.");
   sprintf(string, "%s", name);
   field->field_cpu = array;
   field->name = string;
-  
+
   i = j = k = 0;
 
   for (i = 0; i < size1*size2; i++)
@@ -317,7 +327,7 @@ FieldInt2D *CreateFieldInt2D(char *name) {
   size_t pitch;
 
   field = (FieldInt2D *) malloc(sizeof(Field));
-  if (field == NULL) 
+  if (field == NULL)
     prs_error("Insufficient memory for FieldInt2D creation-step1.");
 
 #ifndef GPU
@@ -330,17 +340,17 @@ FieldInt2D *CreateFieldInt2D(char *name) {
 #endif
 #endif
 
-  if (array == NULL) 
+  if (array == NULL)
     prs_error("Insufficient memory for FieldInt2D creation-step2.");
   string = (char *) malloc(sizeof(char) * 80);
-  if (string == NULL) 
+  if (string == NULL)
     prs_error("Insufficient memory for FieldInt2D creation-step3.");
   sprintf(string, "%s", name);
   field->field_cpu = array;
   field->backup = NULL;
   field->secondary_backup = NULL;
   field->name = string;
-  
+
   i = j = k = 0;
 
 #ifdef Z
@@ -355,7 +365,7 @@ FieldInt2D *CreateFieldInt2D(char *name) {
 #endif
 #ifdef Z
   }
-#endif  
+#endif
   masterprint("Field2D %s has been created\n", name);
   //Now on the GPU
 #ifdef GPU

@@ -87,6 +87,7 @@ WriteBz                    No
 WriteVx                    No
 WriteVy                    No
 WriteVz                    No
+WritePassive               No
 WriteDivergence            No
 WriteEnergyRad             No
 WriteTau                   No

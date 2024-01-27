@@ -3,7 +3,7 @@
 void SelectWriteMethod() {
 
   __WriteField = WriteFieldGhost;
-  
+
 #if !defined(WRITEGHOSTS)
   masterprint ("I do not output the ghost values\n");
   __WriteField = WriteField;
@@ -11,14 +11,14 @@ void SelectWriteMethod() {
     __WriteField = WriteMerging;
   }
 #endif
-  
+
   if (VTK) {
     __WriteField = WriteVTK;
     if (Merge) {
       __WriteField = WriteVTKMerging;
     }
   }
-  
+
   if (Dat2vtk) {
     __WriteField = WriteVTKMerging;
   }
@@ -26,7 +26,7 @@ void SelectWriteMethod() {
   if (Vtk2dat) {
     __WriteField = WriteMerging;
   }
-  
+
 }
 
 void EmptyPlanetSystemFiles () {
@@ -41,7 +41,7 @@ void EmptyPlanetSystemFiles () {
     output = fopen_prs(name, "w"); /* This empties the file */
     fclose (output);
   }
-}  
+}
 
 void WritePlanetFile (int TimeStep, int n, boolean big) {
   FILE *output;
@@ -145,7 +145,7 @@ void WriteTorqueAndWork(int TimeStep, int n) {
   vy = Sys->vy[n];
   vz = Sys->vz[n];
   r = sqrt(x*x + y*y + z*z);
-  
+
   if (ROCHESMOOTHING != 0)
     smoothing = r*pow(m/3./MSTAR,1./3.)*ROCHESMOOTHING;
   else
@@ -159,7 +159,7 @@ void WriteTorqueAndWork(int TimeStep, int n) {
     smoothing = r*pow(m/3./MSTAR,1./3.)*ROCHESMOOTHING;
   else
     smoothing = ASPECTRATIO*pow(r/R0,FLARINGINDEX)*r*THICKNESSSMOOTHING;
-  
+
   if (!CPU_Master) return;
   output = fopen_prs (name, "a");
   fprintf (output, "%d\t%.18g\t%.18g\t%.18g\t%.18g\t%.18g\t%.18g\t%.18g\t%.18g\t%.18g\n",
@@ -207,7 +207,7 @@ void WriteDim () {
     dims = fopen(filename, "w");
     fprintf(dims,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", \
 	    "#XMIN", "XMAX", "YMIN", "YMAX", "ZMIN", "ZMAX",	\
-	    "NX", "NY", "NZ", "CPUS_Y", "CPUS_Z", "NGHY", "NGHZ", "NGHX");		
+	    "NX", "NY", "NZ", "CPUS_Y", "CPUS_Z", "NGHY", "NGHZ", "NGHX");
     fprintf(dims,"%f\t%f\t%f\t%f\t%f\t%f\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",	\
     	    XMIN, XMAX, YMIN, YMAX, ZMIN, ZMAX, NX, NY, NZ,	\
     	    Ncpu_x, Ncpu_y, NGHY, NGHZ, NGHX);
@@ -300,7 +300,7 @@ void WriteMerging(Field *f, int n) {
     fclose(fo);
     fo = fopen(outname, "a+");
   }
-  else 
+  else
     fo = fopen(outname, "a+");
 
   if (CPU_Rank < CPU_Number-1) {  // Force sequential read
@@ -332,19 +332,19 @@ void Write_offset(int file_offset, char* fieldname, char* fluidname){
     fprintf(fp, "%d\t%s\n", file_offset, fieldname);
     fclose(fp);
   }
-  
+
 }
 
 #ifdef MPIIO
 MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int writeoffset) {
 
   INPUT(field);
-  
+
   char filename[MAXNAMELENGTH];
 
   //subarray of memory (fields)
   MPI_Datatype mpi_memtype;
-  int mem_global_size[3]; 
+  int mem_global_size[3];
   int mem_local_size[3];
   int mem_start[3];
   //subarray of file (fields)
@@ -365,7 +365,7 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
   mem_global_size[1] = Ny+2*NGHY;
   mem_global_size[2] = Nx;
 
-  
+
 #if !defined(WRITEGHOSTS)
   mem_local_size[0] = Nz;
   mem_local_size[1] = Ny;
@@ -387,8 +387,8 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
   mem_start[1] = 0;
   mem_start[2] = 0;
 #endif
-  
-  MPI_Type_create_subarray(3, mem_global_size, mem_local_size, mem_start,  
+
+  MPI_Type_create_subarray(3, mem_global_size, mem_local_size, mem_start,
 			   MPI_ORDER_C, MPI_DOUBLE, &mpi_memtype);
   MPI_Type_commit(&mpi_memtype);
 
@@ -415,14 +415,14 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
   file_start[1] = Y0;
   file_start[2] = 0;
 
-  MPI_Type_create_subarray(3, file_global_size, file_local_size, file_start,  
+  MPI_Type_create_subarray(3, file_global_size, file_local_size, file_start,
 			   MPI_ORDER_C, MPI_DOUBLE, &mpi_filetype);
   MPI_Type_commit(&mpi_filetype);
 
-  
+
   //Writing.....
   MPI_File_open(MPI_COMM_WORLD, filename, mode, MPI_INFO_NULL, &mpi_file);
-  
+
   //We write the only at the begining of the file
   if (file_offset == 0) {
     if (mode & MPI_MODE_WRONLY) {
@@ -431,10 +431,10 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
     }
     else {
       MPI_File_read_at(mpi_file, 0, Xmin, NX+1, MPI_DOUBLE, &status);
-    }    
+    }
 
     file_offset += NX+1;
-    
+
     if (mode & MPI_MODE_WRONLY) {
       if (Z0 == 0) {
 	if (J == (Ncpu_x - 1))
@@ -443,7 +443,7 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 	else
 	  MPI_File_write_at(mpi_file, (file_offset+Y0)*sizeof(real),
 			    Ymin+NGHY, Ny, MPI_DOUBLE, &status);
- 
+
       }
 
       file_offset += NY+1;
@@ -456,9 +456,9 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 	  MPI_File_write_at(mpi_file, (file_offset+Z0)*sizeof(real),
 			    Zmin+NGHZ, Nz, MPI_DOUBLE, &status);
       }
-      
+
       file_offset += (NZ+1);
-          
+
     }
     else { //If LOADFIELDS
       if (J == (Ncpu_x - 1))
@@ -469,7 +469,7 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 			 Ymin+NGHY, Ny, MPI_DOUBLE, &status);
 
     file_offset += NY+1;
-    
+
     if (K == (Ncpu_y - 1))
       MPI_File_read_at(mpi_file, (file_offset+Z0)*sizeof(real),
 		       Zmin+NGHZ, Nz+1, MPI_DOUBLE, &status);
@@ -478,7 +478,7 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 		       Zmin+NGHZ, Nz, MPI_DOUBLE, &status);
 
     file_offset += (NZ+1);
-    
+
     }
   }
 
@@ -494,13 +494,13 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
     MPI_File_read_all(mpi_file, field->field_cpu, 1,
 		      mpi_memtype, &status);
 
-  if(writeoffset == TRUE ) Write_offset(file_offset, field->name, Fluids[FluidIndex]->name);  
+  if(writeoffset == TRUE ) Write_offset(file_offset, field->name, Fluids[FluidIndex]->name);
 #if !defined(WRITEGHOSTS)
   file_offset += NX*NY*NZ;
 #else
   file_offset += (NX+2*NGHX)*(NY+2*NGHY)*(NZ+2*NGHZ);
 #endif
-  
+
   MPI_File_close(&mpi_file);
   return file_offset;
 
@@ -510,14 +510,14 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 void WriteBinFile(int n1, int n2, int n3,	\
 		  real *var1, char *filename) {
   int i,j,k;
-  int ntemp; 
+  int ntemp;
   FILE *F;
-  F = fopen(filename,"w"); 
+  F = fopen(filename,"w");
   if(F == NULL) prs_exit(1);
-  
+
   static float *var;
   static boolean init=TRUE;
-  
+
   if(init) {
     var = (float*)malloc(sizeof(float)*n1*n2*n3);
     init = FALSE;
@@ -533,7 +533,7 @@ void WriteBinFile(int n1, int n2, int n3,	\
   fwrite(&n2,4,1,F);
   fwrite(&n3,4,1,F);
   fwrite(&ntemp,4,1,F);
-  
+
   ntemp = n1*n2*n3*sizeof(float);
   fwrite(&ntemp,4,1,F); fwrite(var,sizeof(float)*n1*n2*n3,1,F); fwrite(&ntemp,4,1,F);
   fclose(F);
@@ -559,8 +559,8 @@ void WriteOutputs(int type) {
  /* If type=ALL, all fields are dumped (This is the old fashion
      style). If type=SPECIFIC, this routine only dumps specific
      fields, given by the .par variables WRITE+FIELD. By default all
-     WRITE parameters are NO. */ 
-  
+     WRITE parameters are NO. */
+
   boolean writedensity;
   boolean writeenergy;
   boolean writedivergence;
@@ -570,6 +570,7 @@ void WriteOutputs(int type) {
   boolean writevx;
   boolean writevy;
   boolean writevz;
+  boolean writepassive;
   boolean writeenergyrad;
   boolean writetau;
 
@@ -583,7 +584,7 @@ void WriteOutputs(int type) {
   char filename[MAXNAMELENGTH];
 
   Summary (TimeStep);
-  
+
   if (type == ALL){ //We store the .par variables' value for a while.
     writedensity = WRITEDENSITY;
     writeenergy = WRITEENERGY;
@@ -593,6 +594,7 @@ void WriteOutputs(int type) {
     writevx = WRITEVX;
     writevy = WRITEVY;
     writevz = WRITEVZ;
+    writepassive = WRITEPASSIVE;
     writeenergyrad = WRITEENERGYRAD;
     writetau = WRITETAU;
     WRITEDENSITY = YES;
@@ -603,6 +605,7 @@ void WriteOutputs(int type) {
     WRITEVX = YES;
     WRITEVY = YES;
     WRITEVZ = YES;
+    WRITEPASSIVE = YES;
     WRITEENERGYRAD = YES;
     WRITETAU = YES;
   }
@@ -620,11 +623,11 @@ void WriteOutputs(int type) {
     fp = fopen(filename,"w");
     fclose(fp);
   }
-  
+
   /// MPIIO ouput version
 #ifdef MPIIO
-  offset = 0; //We start at the begining of the file  
- 
+  offset = 0; //We start at the begining of the file
+
   if (WRITEDENSITY)
     offset = ParallelIO(Density, TimeStep, MPI_MODE_WRONLY|MPI_MODE_CREATE, offset,writeoffset);
   if (WRITEENERGY)
@@ -699,8 +702,13 @@ void WriteOutputs(int type) {
   if (WRITEVZ)
     __WriteField(Vz, TimeStep);
 #endif
+  if (WRITEPASSIVE) {
+    for (int p = 0; p < NumPassive; ++p) {
+      __WriteField(Passive[p], TimeStep);
+    }
+  }
 #endif
-  
+
 if (type == ALL){ //We recover the .par variables' value
     WRITEDENSITY = writedensity;
     WRITEENERGY = writeenergy;
@@ -710,6 +718,7 @@ if (type == ALL){ //We recover the .par variables' value
     WRITEVX = writevx;
     WRITEVY = writevy;
     WRITEVZ = writevz;
+    WRITEPASSIVE = writepassive;
   }
 
   if(Vtk2dat)
@@ -720,6 +729,6 @@ if (type == ALL){ //We recover the .par variables' value
  if (type != ALL)
     sprintf(OUTPUTDIR,"%s",outputdir);
 
-  if (OnlyInit) 
+  if (OnlyInit)
     prs_exit(EXIT_SUCCESS);
 }

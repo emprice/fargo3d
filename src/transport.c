@@ -8,7 +8,7 @@ void VanLeerX(Field *Density, Field *DensStar, Field *Vx_t, real dt) {
 }
 
 
-void TransportX(Field *Q, Field *Qs, Field *Vx_t, real dt) { 
+void TransportX(Field *Q, Field *Qs, Field *Vx_t, real dt) {
   if (Q != Density){
      FARGO_SAFE(DivideByRho(Q));
      __VanLeerX(DivRho, Qs, Vx_t, dt);
@@ -63,6 +63,9 @@ void X_advection (Field *Vx_t, real dt) {
 #ifdef ADIABATIC
   TransportX(Energy, Qs, Vx_t, dt);
 #endif
+  for (int p = 0; p < NumPassive; ++p) {
+    TransportX(Passive[p], Qs, Vx_t, dt);
+  }
   TransportX(Density, Qs, Vx_t, dt);
 }
 
@@ -97,17 +100,20 @@ void transport(real dt){
 #ifdef ADIABATIC
     TransportZ(Energy, Qs, dt);
 #endif
+    for (int p = 0; p < NumPassive; ++p) {
+      TransportZ(Passive[p], Qs, dt);
+    }
     TransportZ(Density, Qs, dt);
   }
 #endif
-  
-  
+
+
 #ifdef Y
   if(NY>1){
     FARGO_SAFE(VanLeerY_a(Density));
     FARGO_SAFE(VanLeerY_b(dt, Density, DensStar));
-    
-#ifdef X  
+
+#ifdef X
     TransportY(Mpx, Qs, dt);
     TransportY(Mmx, Qs, dt);
 #endif
@@ -122,22 +128,25 @@ void transport(real dt){
 #ifdef ADIABATIC
     TransportY(Energy, Qs, dt);
 #endif
+    for (int p = 0; p < NumPassive; ++p) {
+      TransportY(Passive[p], Qs, dt);
+    }
     TransportY(Density, Qs, dt);
   }
 #endif
-  
+
 #ifdef X
   if(NX>1){
 #ifdef STANDARD
     __VanLeerX = VanLeerX;
     X_advection (Vx_temp, dt);
 #else // FARGO and RAM algorithm below
-    
+
     FARGO_SAFE(ComputeResidual(dt));
     __VanLeerX = VanLeerX;
     X_advection (Vx, dt); // Vx => variable residual
-    
-#ifndef RAM 
+
+#ifndef RAM
     //__VanLeerX= VanLeerX;
     __VanLeerX= VanLeerX_PPA;
     X_advection (Vx_temp, dt); // Vx_temp => fixed residual @ given r. This one only is done with PPA
@@ -155,14 +164,17 @@ void transport(real dt){
 #ifdef ADIABATIC
     AdvectSHIFT(Energy, Nshift);
 #endif
+    for (int p = 0; p < NumPassive; ++p) {
+      AdvectSHIFT(Passive[p], Nshift);
+    }
     AdvectSHIFT(Density, Nshift);
-    
+
 #else //RAM algorithm below
     FARGO_SAFE(RamComputeUstar(dt));
-    
+
     XadvectRAM(Mpx,dt);
     XadvectRAM(Mmx,dt);
-    
+
 #ifdef Y
     XadvectRAM(Mpy,dt);
     XadvectRAM(Mmy,dt);
@@ -174,13 +186,16 @@ void transport(real dt){
 #ifdef ADIABATIC
     XadvectRAM(Energy, dt);
 #endif
+    for (int p = 0; p < NumPassive; ++p) {
+      XadvecRAM(Passive[p], dt);
+    }
     XadvectRAM(Density,dt);
 
 #endif //RAM
 #endif //no STD
   }
-#endif //X 
- 
+#endif //X
+
 #ifdef X
   FARGO_SAFE(NewVelocity_x());
 #endif
