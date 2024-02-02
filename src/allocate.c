@@ -116,12 +116,12 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
     prs_error("Insufficient memory for Field creation-step1.");
 
 #if (!GPU)
-  array = (real *) malloc(sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ)+sizeof(Field*));
+  array = (real *) malloc(sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ));
 #else
 #ifndef PINNED
-  array = (real *) malloc(sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ)+sizeof(Field*));
+  array = (real *) malloc(sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ));
 #else
-  cudaMallocHost((void**)&array,sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ)+sizeof(Field*));
+  cudaMallocHost((void**)&array,sizeof(real)*(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ));
 #endif
 #endif
 
