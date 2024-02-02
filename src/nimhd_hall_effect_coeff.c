@@ -14,7 +14,7 @@ void HallEffect_coeff_cpu () {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* eta  = EtaHall->field_cpu;
+  real* eta  = EtaHall->data->field_cpu;
   real etah  = HALLEFFECTCOEFF;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
@@ -28,7 +28,7 @@ void HallEffect_coeff_cpu () {
   int j;
   int k;
 //<\INTERNAL>
-  
+
 //<MAIN_LOOP>
   i = j = k = 0;
 

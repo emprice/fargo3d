@@ -18,10 +18,10 @@ void UpdateZ_cpu(real dt, Field *Q, Field *Qs) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* qb = Q->field_cpu;
-  real* qs = Qs->field_cpu;
-  real* vz = Vz_temp->field_cpu;
-  real* rho_s = DensStar->field_cpu;
+  real* qb = Q->data->field_cpu;
+  real* qs = Qs->data->field_cpu;
+  real* vz = Vz_temp->data->field_cpu;
+  real* rho_s = DensStar->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;
@@ -30,7 +30,7 @@ void UpdateZ_cpu(real dt, Field *Q, Field *Qs) {
 //<\EXTERNAL>
 
 //<INTERNAL>
-  int i; //Reserved variables 
+  int i; //Reserved variables
   int j; //for the topology
   int k; //of the kernels
   int ll;
@@ -52,7 +52,7 @@ void UpdateZ_cpu(real dt, Field *Q, Field *Qs) {
 
   i = j = k = 0;
 
-#if ZDIM  
+#if ZDIM
   for (k=0; k<size_z; k++) {
 #endif
 #if YDIM

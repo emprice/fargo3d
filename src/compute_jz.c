@@ -16,9 +16,9 @@ void ComputeJz_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* jz = Jz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* jz = Jz->data->field_cpu;
   real mu0 = MU0;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

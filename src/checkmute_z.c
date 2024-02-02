@@ -64,23 +64,23 @@ void CheckMuteZ_cpu() {
 //<\INTERNAL>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
-#if XDIM  
-  real* vx = Vx->field_cpu;
+  real* rho = Density->data->field_cpu;
+#if XDIM
+  real* vx = Vx->data->field_cpu;
 #endif
 #if YDIM
-  real* vy = Vy->field_cpu;
+  real* vy = Vy->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz = Vz->field_cpu;
+  real* vz = Vz->data->field_cpu;
 #endif
 #if ADIABATIC
-  real* energy = Energy->field_cpu;
+  real* energy = Energy->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
@@ -106,7 +106,7 @@ void CheckMuteZ_cpu() {
 	ll = l;
 	l_act = i+j*pitch+NGHZ*stride;
 	l_up  = i+j*pitch+(k+NGHZ+1)*stride;
-	
+
 	rho[ll]    = rho[l_act];
 	rho[l_up]  = rho[l_act];
 #if ZDIM
@@ -116,11 +116,11 @@ void CheckMuteZ_cpu() {
 #if XDIM
 	vx[ll]     = vx[l_act];
 	vx[l_up]   = vx[l_act];
-#endif	 
+#endif
 #if YDIM
 	vy[ll]     = vy[l_act];
 	vy[l_up]   = vy[l_act];
-#endif	 
+#endif
 #if ADIABATIC
 	energy[ll]   = energy[l_act];
 	energy[l_up] = energy[l_act];
@@ -132,7 +132,7 @@ void CheckMuteZ_cpu() {
 	by[l_up]   = by[l_act];
 	bz[ll]     = bz[l_act];
 	bz[l_up]   = bz[l_act];
-#endif   
+#endif
 //<\#>
 #if XDIM
       }

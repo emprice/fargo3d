@@ -13,29 +13,32 @@ Field *CreateFieldAlias(char *name, Field *clone, int type) {
   if (string == NULL)
     prs_error("Insufficient memory for Field creation-step3");
   sprintf(string, "%s", name);
-  field->field_cpu = clone->field_cpu; //Cloning fields
   field->backup = NULL;
   field->secondary_backup = NULL;
-  field->owner = (Field **)(field->field_cpu+(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ));
   field->name = string;
   field->next = ListOfGrids;     //Linkedlist
   ListOfGrids = field;
+
+  field->data = malloc(sizeof(field_data_t));
+  field->data->field_cpu = clone->data->field_cpu; //Cloning fields
 #if GPU
-  field->field_gpu = clone->field_gpu;
-  field->gpu_pp = clone->gpu_pp;
-  field->cpu_pp = clone->cpu_pp;
+  field->data->field_gpu = clone->data->field_gpu;
+  field->data->gpu_pp = clone->data->gpu_pp;
+  field->data->cpu_pp = clone->data->cpu_pp;
 #endif
 
-  field->fresh_cpu     =  YES;
+  field->fresh.on_cpu     =  YES;
   for (i = 0; i < 4; i++) {
-    field->fresh_inside_contour_cpu[i] = YES;
-    field->fresh_outside_contour_cpu[i] = YES;
+    field->fresh.inside_contour_cpu[i] = YES;
+    field->fresh.outside_contour_cpu[i] = YES;
   }
-  field->fresh_gpu     =  NO;
+#if GPU
+  field->fresh.on_gpu     =  NO;
   for (i = 0; i < 4; i++) {
-    field->fresh_inside_contour_gpu[i] = NO;
-    field->fresh_outside_contour_gpu[i] = NO;
+    field->fresh.inside_contour_gpu[i] = NO;
+    field->fresh.outside_contour_gpu[i] = NO;
   }
+#endif
 
   field->type = type;
   masterprint("Grids %s and %s share their storage\n", clone->name, name);
@@ -128,12 +131,12 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
   if (string == NULL)
     prs_error("Insufficient memory for Field creation-step3.");
   sprintf(string, "%s", name);
-  field->field_cpu = array;
   field->backup = NULL;
   field->secondary_backup = NULL;
   field->name = string;
-  field->owner = (Field **)(array+(Ny+2*NGHY)*(Nx+2*NGHX)*(Nz+2*NGHZ));
-  *(field->owner) = field;
+  field->data = malloc(sizeof(field_data_t));
+  field->data->field_cpu = array;
+  field->data->owner = field;
   field->line_origin = __LINE__;
   strncpy (field->file_origin, __FILE__, MAXLINELENGTH-1);
 
@@ -184,15 +187,15 @@ Field *CreateField(char *name, int type, boolean sx, boolean sy, boolean sz) {
   field->cpu_pp = make_cudaPitchedPtr (array, (Nx+2*NGHX)*sizeof(real), (Nx+2*NGHX), Ny+2*NGHY);
   masterprint("Field %s has been created on the GPU\n", name);
 
-  field->fresh_cpu     =  YES;
+  field->fresh.on_cpu     =  YES;
   for (i = 0; i < 4; i++) {
-    field->fresh_inside_contour_cpu[i] = YES;
-    field->fresh_outside_contour_cpu[i] = YES;
+    field->fresh.inside_contour_cpu[i] = YES;
+    field->fresh.outside_contour_cpu[i] = YES;
   }
-  field->fresh_gpu     =  NO;
+  field->fresh.on_gpu     =  NO;
   for (i = 0; i < 4; i++) {
-    field->fresh_inside_contour_gpu[i] = NO;
-    field->fresh_outside_contour_gpu[i] = NO;
+    field->fresh.inside_contour_gpu[i] = NO;
+    field->fresh.outside_contour_gpu[i] = NO;
   }
 
   field->field_gpu     =  (real *)arr_gpu;
@@ -275,7 +278,8 @@ Field2D *CreateField2D(char *name, int dim) {
   if (string == NULL)
     prs_error("Insufficient memory for Field2D creation-step3.");
   sprintf(string, "%s", name);
-  field->field_cpu = array;
+  field->data = malloc(sizeof(field_data_t));
+  field->data->field_cpu = array;
   field->name = string;
 
   i = j = k = 0;
@@ -298,12 +302,12 @@ Field2D *CreateField2D(char *name, int dim) {
     MPI_Finalize();
     exit(1);
   }
-  field->fresh_gpu     =  NO;
+  field->fresh.on_gpu     =  NO;
   if (dim == YZ) // Backward compatibility (old 2D arrays were only YZ).
     Pitch2D = pitch/sizeof(real);
   //If the array is not in YZ, we store its pitch in a new field of the 2D structure.
 #endif
-  field->fresh_cpu     =  YES;
+  field->fresh.on_cpu     =  YES;
   field->kind = dim;
   return field;
 }
@@ -336,7 +340,8 @@ FieldInt2D *CreateFieldInt2D(char *name) {
   if (string == NULL)
     prs_error("Insufficient memory for FieldInt2D creation-step3.");
   sprintf(string, "%s", name);
-  field->field_cpu = array;
+  field->data = malloc(sizeof(field_data_t));
+  field->data->field_cpu = array;
   field->backup = NULL;
   field->secondary_backup = NULL;
   field->name = string;
@@ -365,6 +370,6 @@ FieldInt2D *CreateFieldInt2D(char *name) {
   field->field_gpu =  (int*)arr_gpu;
 #endif
   Pitch_Int_gpu = pitch/sizeof(int);
-  field->fresh_cpu     =  YES;
+  field->fresh.on_cpu     =  YES;
   return field;
 }

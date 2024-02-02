@@ -24,15 +24,15 @@ void DustDiffusion_Core_cpu(real dt) {
   //Arrays Mmx, Mpx, Mmy and Mpy were filled with the dust diffusion coefficients in DustDiffusion_Coefficients()
 
 //<EXTERNAL>
-  real* sdiff_yfzc = Sdiffyfzc->field_cpu;
-  real* sdiff_yczc = Sdiffyczc->field_cpu;
+  real* sdiff_yfzc = Sdiffyfzc->data->field_cpu;
+  real* sdiff_yczc = Sdiffyczc->data->field_cpu;
 #if ZDIM
-  real* sdiff_yczf = Sdiffyczf->field_cpu;
-  real* sdiff_yfzf = Sdiffyfzf->field_cpu;
+  real* sdiff_yczf = Sdiffyczf->data->field_cpu;
+  real* sdiff_yfzf = Sdiffyfzf->data->field_cpu;
 #endif
-  real* rhod  = Density->field_cpu;
-  real* rhog  = Fluids[0]->Density->field_cpu;
-  real* temp  = Pressure->field_cpu;
+  real* rhod  = Density->data->field_cpu;
+  real* rhog  = Fluids[0]->Density->data->field_cpu;
+  real* temp  = Pressure->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

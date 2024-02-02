@@ -18,10 +18,10 @@ void ComputeResidual_cpu(real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* vx    = Vx_temp->field_cpu;
-  real* vxr   = Vx->field_cpu;
-  real* vxmed = VxMed->field_cpu;
-  int* nshift = Nshift->field_cpu;
+  real* vx    = Vx_temp->data->field_cpu;
+  real* vxr   = Vx->data->field_cpu;
+  real* vxmed = VxMed->data->field_cpu;
+  int* nshift = Nshift->data->field_cpu;
   int pitch   = Pitch_cpu;
   int stride  = Stride_cpu;
   int size_x  = Nx+2*NGHX;

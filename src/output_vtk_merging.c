@@ -6,6 +6,7 @@ void WriteVTKMerging(Field *f, int n) {
   real temp;
   FILE *ofile;
   static boolean init = YES;
+  real *data = f->data->field_cpu;
 
   INPUT (f);
   sprintf(outname, "%s%s%d.vtk", OUTPUTDIR, f->name, n);
@@ -163,7 +164,7 @@ void WriteVTKMerging(Field *f, int n) {
       for (j = 0; j<Ncpu_x; j++) {
 	if ((J==j) && (k>=Z0) && (k<(Z0+Nz))) {
 	  for (m=NGHY;m<Ny+NGHY;m++) {
-	    temp = Swap(f->field_cpu[i+m*Nx+(k-Z0)*Stride+NGHZ*Stride]);
+	    temp = Swap(data[i+m*Nx+(k-Z0)*Stride+NGHZ*Stride]);
 	    fwrite(&temp, sizeof(real), 1, ofile);
 	  }
 	}
@@ -178,7 +179,7 @@ void WriteVTKMerging(Field *f, int n) {
       for (j = 0; j<Ncpu_x; j++) {
 	if ((J==j) && (k>=Z0) && (k<(Z0+Nz))) {
 	  for (m=NGHY;m<Ny+NGHY;m++) {
-	    temp = Swap(f->field_cpu[i+m*Nx+(k-Z0)*Stride+NGHZ*Stride]);
+	    temp = Swap(data[i+m*Nx+(k-Z0)*Stride+NGHZ*Stride]);
 	    fwrite(&temp, sizeof(real), 1, ofile);
 	  }
 	}

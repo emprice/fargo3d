@@ -20,13 +20,13 @@ void HallEffect_emfy_cpu(){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
-  real* jx = Jx->field_cpu;
-  real* jz = Jz->field_cpu;
-  real* emf = EmfyH->field_cpu;
-  real* eta = EtaHall->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
+  real* jx = Jx->data->field_cpu;
+  real* jz = Jz->data->field_cpu;
+  real* emf = EmfyH->data->field_cpu;
+  real* eta = EtaHall->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;

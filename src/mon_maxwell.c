@@ -18,10 +18,10 @@ void mon_maxwell_cpu () {
 
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* interm = Slope->field_cpu;
+  real* dens = Density->data->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* interm = Slope->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

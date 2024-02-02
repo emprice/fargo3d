@@ -14,7 +14,7 @@ void AmbipolarDiffusion_coeff_cpu () {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* eta  = EtaAD->field_cpu;
+  real* eta  = EtaAD->data->field_cpu;
   real etaad = AMBIPOLARDIFFUSIONCOEFF;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

@@ -42,15 +42,15 @@ void EMF_Upstream_Integrate_cpu (real dt) {
 //<\INTERNAL>
 
 //<EXTERNAL>
-  real* emfx = Emfx->field_cpu;
-  real* emfy = Emfy->field_cpu;
-  real* emfz = Emfz->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
-  real* vxhyr = Vxhyr->field_cpu;
-  real* vxhzr = Vxhzr->field_cpu;
-  int* nxhy = Nxhy->field_cpu;
-  int* nxhz = Nxhz->field_cpu;
+  real* emfx = Emfx->data->field_cpu;
+  real* emfy = Emfy->data->field_cpu;
+  real* emfz = Emfz->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
+  real* vxhyr = Vxhyr->data->field_cpu;
+  real* vxhzr = Vxhzr->data->field_cpu;
+  int* nxhy = Nxhy->data->field_cpu;
+  int* nxhz = Nxhz->data->field_cpu;
   int pitch  = Pitch_cpu;
   int pitch2d_int = Pitch_Int_gpu;
   int pitch2d = Pitch2D;
@@ -58,7 +58,7 @@ void EMF_Upstream_Integrate_cpu (real dt) {
   int size_x = Nx+2*NGHX;
   int size_y = Ny+2*NGHY;
   int size_z = Nz+2*NGHZ;
-  int nx = Nx; 
+  int nx = Nx;
 //<\EXTERNAL>
 
 //<CONSTANT>

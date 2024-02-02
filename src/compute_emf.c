@@ -78,19 +78,19 @@ void _ComputeEmf_cpu(real dt, int idx1, int idy1, int idz1, int idx2, int idy2, 
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* slope_v1 = Slope_v1->field_cpu;
-  real* slope_b1 = Slope_b1->field_cpu;
-  real* slope_v2 = Slope_v2->field_cpu;
-  real* slope_b2 = Slope_b2->field_cpu;
-  real* b1 = B1->field_cpu;
-  real* v1 = V1->field_cpu;
-  real* b2 = B2->field_cpu;
-  real* v2 = V2->field_cpu;
-  real* bs1 = Bs1->field_cpu;
-  real* bs2 = Bs2->field_cpu;
-  real* vs1 = Vs1->field_cpu;
-  real* vs2 = Vs2->field_cpu;
-  real* emf = Emf->field_cpu;
+  real* slope_v1 = Slope_v1->data->field_cpu;
+  real* slope_b1 = Slope_b1->data->field_cpu;
+  real* slope_v2 = Slope_v2->data->field_cpu;
+  real* slope_b2 = Slope_b2->data->field_cpu;
+  real* b1 = B1->data->field_cpu;
+  real* v1 = V1->data->field_cpu;
+  real* b2 = B2->data->field_cpu;
+  real* v2 = V2->data->field_cpu;
+  real* bs1 = Bs1->data->field_cpu;
+  real* bs2 = Bs2->data->field_cpu;
+  real* vs1 = Vs1->data->field_cpu;
+  real* vs2 = Vs2->data->field_cpu;
+  real* emf = Emf->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

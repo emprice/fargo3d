@@ -2,8 +2,8 @@
 
 void copy_field_cpu(Field *Dst, Field *Src) {
 
-  real *dst = Dst->field_cpu;
-  real *src = Src->field_cpu;
+  real *dst = Dst->data->field_cpu;
+  real *src = Src->data->field_cpu;
 
   INPUT(Src);
   OUTPUT(Dst);

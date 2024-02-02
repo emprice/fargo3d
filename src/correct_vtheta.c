@@ -15,7 +15,7 @@ void CorrectVtheta_cpu(real domega) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* vt = Vx->field_cpu;
+  real* vt = Vx->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

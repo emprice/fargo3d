@@ -18,11 +18,11 @@ void VanLeerX_PPA_d_2d_cpu(real dt, Field *Q, Field *Qs, Field2D *Vx_t){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* vx = Vx_t->field_cpu;
-  real* q  = Q->field_cpu   ;
-  real* qs = Qs->field_cpu  ;
-  real* qL = QL->field_cpu  ;
-  real* qR = QR->field_cpu  ;
+  real* vx = Vx_t->data->field_cpu;
+  real* q  = Q->data->field_cpu;
+  real* qs = Qs->data->field_cpu;
+  real* qL = QL->data->field_cpu;
+  real* qR = QR->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

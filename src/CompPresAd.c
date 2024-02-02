@@ -16,8 +16,8 @@ void ComputePressureFieldAd_cpu () {
 
 
 //<EXTERNAL>
-  real* e   = Energy->field_cpu;
-  real* pres = Pressure->field_cpu;
+  real* e   = Energy->data->field_cpu;
+  real* pres = Pressure->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;
@@ -35,7 +35,7 @@ void ComputePressureFieldAd_cpu () {
 //<CONSTANT>
 // real GAMMA(1);
 //<\CONSTANT>
-  
+
 //<MAIN_LOOP>
 
   i = j = k = 0;

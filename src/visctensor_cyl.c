@@ -44,48 +44,48 @@ void visctensor_cyl_cpu(){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if ALPHAVISCOSITY
-  real* energy = Energy->field_cpu;
+  real* energy = Energy->data->field_cpu;
 #endif
 #if XDIM
 #if COLLISIONPREDICTOR
-  real* vx = Vx_half->field_cpu;
+  real* vx = Vx_half->data->field_cpu;
 #else
-  real* vx = Vx->field_cpu;
+  real* vx = Vx->data->field_cpu;
 #endif
 #endif
 #if YDIM
 #if COLLISIONPREDICTOR
-  real* vy = Vy_half->field_cpu;
+  real* vy = Vy_half->data->field_cpu;
 #else
-  real* vy = Vy->field_cpu;
+  real* vy = Vy->data->field_cpu;
 #endif
 #endif
 #if ZDIM
 #if COLLISIONPREDICTOR
-  real* vz = Vz_half->field_cpu;
+  real* vz = Vz_half->data->field_cpu;
 #else
-  real* vz = Vz->field_cpu;
+  real* vz = Vz->data->field_cpu;
 #endif
 #endif
 #if XDIM
-  real* tauxx = Mmx->field_cpu;
+  real* tauxx = Mmx->data->field_cpu;
 #endif
 #if YDIM
-  real* tauyy = Mmy->field_cpu;
+  real* tauyy = Mmy->data->field_cpu;
 #endif
 #if ZDIM
-  real* tauzz = Mmz->field_cpu;
+  real* tauzz = Mmz->data->field_cpu;
 #endif
 #if (XDIM && ZDIM)
-  real* tauxz = Mpx->field_cpu;
+  real* tauxz = Mpx->data->field_cpu;
 #endif
 #if (YDIM && XDIM)
-  real* tauyx = Mpy->field_cpu;
+  real* tauyx = Mpy->data->field_cpu;
 #endif
 #if (ZDIM && YDIM)
-  real* tauzy = Mpz->field_cpu;
+  real* tauzy = Mpz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

@@ -24,15 +24,15 @@ void SubStep3_cpu (real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* e   = Energy->field_cpu;
+  real* e   = Energy->data->field_cpu;
 #if XDIM
-  real* vx  = Vx_temp->field_cpu;
+  real* vx  = Vx_temp->data->field_cpu;
 #endif
 #if YDIM
-  real* vy  = Vy_temp->field_cpu;
+  real* vy  = Vy_temp->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz  = Vz_temp->field_cpu;
+  real* vz  = Vz_temp->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

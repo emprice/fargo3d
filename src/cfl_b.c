@@ -7,7 +7,7 @@ void cfl_b(){
   Min[FluidIndex] = reduction_full_MIN(DensStar, NGHY, Ny+NGHY, NGHZ, Nz+NGHZ);
 
 #if XDIM
-    real* vxmed = VxMed->field_cpu;
+    real* vxmed = VxMed->data->field_cpu;
     real shearlimit;
 
 #if (!STANDARD)

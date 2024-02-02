@@ -84,6 +84,7 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
   real lsum=0.0, gsum=0.0;
   int j, k;
   FILE *Out;
+  real *reduction;
 
   if(MAX1D < NZ) masterprint("Error in monitor.c --- MAX1D < NZ --- increase the value of MAX1D in define.h\n");
   if(MAX1D < NY) masterprint("Error in monitor.c --- MAX1D < NY --- increase the value of MAX1D in define.h\n");
@@ -103,6 +104,7 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
     if ((mon_cent[idx][1] == 'C') || (mon_cent[idx][1] == 'c'))
       centered = YES;
     INPUT2D (Reduction2D);
+    reduction = Reduction2D->data->field_cpu;
     for (j = 0; j < NY; j++) {
       Profile[j] = 0.0;
       Coord[j] = -1e30;
@@ -110,7 +112,7 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
     for (j = NGHY; j < Ny+NGHY; j++) {
       Coord[j+y0cell-NGHY] = (centered ? Ymed(j) : Ymin(j));
       for (k = NGHZ; k < Nz+NGHZ; k++) {
-	Profile[j+y0cell-NGHY] += Reduction2D->field_cpu[l2D];
+	Profile[j+y0cell-NGHY] += reduction[l2D];
       }
     }
 
@@ -147,6 +149,7 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
     if ((mon_cent[idx][3] == 'C') || (mon_cent[idx][3] == 'c'))
       centered = YES;
     INPUT2D (Reduction2D);
+    reduction = Reduction2D->data->field_cpu;
 
     for (k = 0; k < NZ; k++) {
       Profile[k] = 0.0;
@@ -157,7 +160,7 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
       Coord[k+z0cell-NGHZ] = (centered ? Zmed(k) : Zmin(k));
 
       for (j = NGHY; j < Ny+NGHY; j++) {
-	Profile[k+z0cell-NGHZ] += Reduction2D->field_cpu[l2D];
+	Profile[k+z0cell-NGHZ] += reduction[l2D];
       }
     }
 
@@ -188,9 +191,10 @@ void MonitorFunction (int idx, int r, char *CurrentFineGrainDir, int plnb) {
 
   if (r & MONITORSCALAR) {
     INPUT2D (Reduction2D);
+    reduction = Reduction2D->data->field_cpu;
     for (k = NGHZ; k < Nz+NGHZ; k++) {
       for (j = NGHY; j < Ny+NGHY; j++) {
-	lsum += Reduction2D->field_cpu[l2D];
+	lsum += reduction[l2D];
       }
     }
 

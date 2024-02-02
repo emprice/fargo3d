@@ -4,13 +4,13 @@ void Compute_Staggered_2D_fields (real dt)  {
   int i,j,k;
   real *vxhy, *vxhyr, *vxhz, *vxhzr, *vxmed;
   int *nxhy, *nxhz;
-  vxhy  = Vxhy->field_cpu;
-  vxhz  = Vxhz->field_cpu;
-  vxhyr = Vxhyr->field_cpu;
-  vxhzr = Vxhzr->field_cpu;
-  nxhy  = Nxhy->field_cpu;
-  nxhz  = Nxhz->field_cpu;
-  vxmed = VxMed->field_cpu;
+  vxhy  = Vxhy->data->field_cpu;
+  vxhz  = Vxhz->data->field_cpu;
+  vxhyr = Vxhyr->data->field_cpu;
+  vxhzr = Vxhzr->data->field_cpu;
+  nxhy  = Nxhy->data->field_cpu;
+  nxhz  = Nxhz->data->field_cpu;
+  vxmed = VxMed->data->field_cpu;
 
   INPUT2D  (VxMed);
   OUTPUT2D (Vxhy);
@@ -19,7 +19,7 @@ void Compute_Staggered_2D_fields (real dt)  {
   OUTPUT2D (Vxhzr);
   OUTPUT2DINT (Nxhy);
   OUTPUT2DINT (Nxhz);
-  
+
   for (k = 0; k < Nz+2*NGHZ; k++) {
     for (j = 1; j < Ny+2*NGHY; j++) {
       vxhy[l2D] = .5*(vxmed[l2D-1]+vxmed[l2D]);

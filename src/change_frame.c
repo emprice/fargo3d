@@ -16,8 +16,8 @@ void ChangeFrame_cpu(int sign, Field *V, Field2D *Vm) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* v  = V->field_cpu;
-  real* vm = Vm->field_cpu;
+  real* v  = V->data->field_cpu;
+  real* vm = Vm->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

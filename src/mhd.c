@@ -102,10 +102,10 @@ void ComputeDivergence(Field *CompX, Field *CompY, Field *CompZ){
   INPUT (CompZ);
   OUTPUT (Divergence);
 
-  bx = CompX->field_cpu;
-  by = CompY->field_cpu;
-  bz = CompZ->field_cpu;
-  d = Divergence->field_cpu;
+  bx = CompX->data->field_cpu;
+  by = CompY->data->field_cpu;
+  bz = CompZ->data->field_cpu;
+  d = Divergence->data->field_cpu;
 
   sxj = Sxj;
   sxk = Sxk;

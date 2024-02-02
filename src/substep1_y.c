@@ -39,39 +39,39 @@ void SubStep1_y_cpu (real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* p   = Pressure->field_cpu;
-  real* pot = Pot->field_cpu;
-  real* rho = Density->field_cpu;
+  real* p   = Pressure->data->field_cpu;
+  real* pot = Pot->data->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx      = Vx->field_cpu;
+  real* vx      = Vx->data->field_cpu;
 #if COLLISIONPREDICTOR
-  real* vx_half = Vx_half->field_cpu;
+  real* vx_half = Vx_half->data->field_cpu;
 #else
-  real* vx_half = Vx->field_cpu;
+  real* vx_half = Vx->data->field_cpu;
 #endif
-  real* vx_temp = Vx_temp->field_cpu;
+  real* vx_temp = Vx_temp->data->field_cpu;
 #endif
 #if YDIM
-  real* vy      = Vy->field_cpu;
+  real* vy      = Vy->data->field_cpu;
 #if COLLISIONPREDICTOR
-  real* vy_half = Vy_half->field_cpu;
+  real* vy_half = Vy_half->data->field_cpu;
 #else
-  real* vy_half = Vy->field_cpu;
+  real* vy_half = Vy->data->field_cpu;
 #endif
-  real* vy_temp = Vy_temp->field_cpu;
+  real* vy_temp = Vy_temp->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz      = Vz->field_cpu;
+  real* vz      = Vz->data->field_cpu;
 #if COLLISIONPREDICTOR
-  real* vz_half = Vz_half->field_cpu;
+  real* vz_half = Vz_half->data->field_cpu;
 #else
-  real* vz_half = Vz->field_cpu;
+  real* vz_half = Vz->data->field_cpu;
 #endif
-  real* vz_temp = Vz_temp->field_cpu;
+  real* vz_temp = Vz_temp->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* bz = Bz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

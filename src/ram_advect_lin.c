@@ -16,10 +16,10 @@ void AdvectRAMlin_cpu(real dt, Field *F) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* f        = F->field_cpu;
-  real* slopes   = Slope->field_cpu;
-  real* phistarmin = PhiStarmin->field_cpu;
-  real* aux   = Pressure->field_cpu;
+  real* f        = F->data->field_cpu;
+  real* slopes   = Slope->data->field_cpu;
+  real* phistarmin = PhiStarmin->data->field_cpu;
+  real* aux   = Pressure->data->field_cpu;
   int pitch  = Pitch_cpu;
   int pitch2d  = Pitch2D;
   int stride = Stride_cpu;

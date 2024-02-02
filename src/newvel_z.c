@@ -19,11 +19,11 @@ void NewVelocity_z_cpu () {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if ZDIM
-  real* vz  = Vz -> field_cpu;
-  real* mmz = Mmz->field_cpu;
-  real* mpz = Mpz->field_cpu;
+  real* vz  = Vz ->data->field_cpu;
+  real* mmz = Mmz->data->field_cpu;
+  real* mpz = Mpz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

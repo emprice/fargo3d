@@ -12,7 +12,7 @@ void RestartStretch (Field *field, int n) {
 
   OUTPUT(field);
 
-  f = field->field_cpu;
+  f = field->data->field_cpu;
   name = field->name;
 
   sprintf(filename, "%s%s%d.dat", OUTPUTDIR, name, n);

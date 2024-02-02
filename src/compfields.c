@@ -5,16 +5,16 @@ boolean CompareField (Field *f) { // Compare a field to its secondary backup
   int diff = 0;
   real *f1, *f2;
   //  if(f->name[0]!='S') //Problem with Slope field when reduction is analized
-  if (*(f->owner) == NULL) {
+  if (f->data->owner == NULL) {
     if (CPU_Rank == 0) {
       fprintf (stderr, "Skipping comparison of field %s used as a temporary work array\n",f->name);
       fprintf (stderr, "in file %s (as declared at line %d)\n",f->file_origin,f->line_origin);
     }
     return FALSE;
   }
-  if (*(f->owner) != f) return FALSE;
+  if (f->data->owner != f) return FALSE;
   INPUT (f);
-  f1 = f->field_cpu;
+  f1 = f->data->field_cpu;
   f2 = f->secondary_backup;
   size = (Nx+2*NGHX)*(Ny+2*NGHY)*(Nz+2*NGHZ);
   for (i=0; i < size; i++) {
@@ -36,7 +36,7 @@ void CompareAllFields () {
   while (current != NULL) {
     if (CompareField (current)) {
       if (!CPU_Rank) printf ("Fields %s differ:\n", current->name);
-      GiveStats (current->name, current->field_cpu, current->secondary_backup, size);
+      GiveStats (current->name, current->data->field_cpu, current->secondary_backup, size);
     }
     current = current->next;
   }
@@ -56,10 +56,10 @@ void GiveStats (char *name, real *f1, real *f2, int size) {
 
     if (f2[i]-f1[i] < mindiff) mindiff = f2[i]-f1[i];
     if (f2[i]-f1[i] > maxdiff) maxdiff = f2[i]-f1[i];
-    
-    if (f2[i]/f1[i] < minratio) minratio = f2[i]/f1[i];    
+
+    if (f2[i]/f1[i] < minratio) minratio = f2[i]/f1[i];
     if (f2[i]/f1[i] > maxratio) maxratio = f2[i]/f1[i];
-    
+
   }
   maxabs = max1;
   if (fabs(min1) > max1) maxabs = fabs(min1);

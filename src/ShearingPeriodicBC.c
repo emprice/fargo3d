@@ -78,7 +78,7 @@ void SlideIntShearingBoundary (Field *F) {
   int i,j,k,side,ii,exception_by=0;
   real *f;
   static real buffer[MAX1D];
-  f = F->field_cpu;
+  f = F->data->field_cpu;
 
   if (F->type == BY)
     exception_by = 1;
@@ -111,7 +111,7 @@ void SlideResShearingBoundary (Field *Q) {
   boolean IsVx=NO;
   int exception_by=0;
 
-  q  = Q->field_cpu;
+  q  = Q->data->field_cpu;
   if (((Q->type == VX) || (Q->type == VXTEMP)) && (VxIsResidual == NO))
     IsVx = YES;
 

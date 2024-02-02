@@ -8,7 +8,7 @@
 //<\INCLUDES>
 
 void VanLeerX_PPA_a_cpu(Field *Q){
-  
+
 //<USER_DEFINED>
   INPUT(Q);
   OUTPUT(Slope);
@@ -18,14 +18,14 @@ void VanLeerX_PPA_a_cpu(Field *Q){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* slope = Slope->field_cpu;
+  real* slope = Slope->data->field_cpu;
 #if PPA_STEEPENER
-  real* lapla = LapPPA->field_cpu;
+  real* lapla = LapPPA->data->field_cpu;
 #endif
-  real* q = Q->field_cpu;
+  real* q = Q->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
-  int size_x = XIP; 
+  int size_x = XIP;
   int size_y = Ny+2*NGHY;
   int size_z = Nz+2*NGHZ;
 //<\EXTERNAL>
@@ -38,7 +38,7 @@ void VanLeerX_PPA_a_cpu(Field *Q){
   real dqp;
   real work;
 //<\INTERNAL>
-  
+
 //<MAIN_LOOP>
 
   i = j = k = 0;

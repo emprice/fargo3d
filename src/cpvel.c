@@ -2,16 +2,16 @@
 
 void copy_velocities_cpu(int option) {
 #if XDIM
-  real *vx = Vx->field_cpu;
-  real *vx_temp = Vx_temp->field_cpu;
+  real *vx = Vx->data->field_cpu;
+  real *vx_temp = Vx_temp->data->field_cpu;
 #endif
 #if YDIM
-  real *vy = Vy->field_cpu;
-  real *vy_temp = Vy_temp->field_cpu;
+  real *vy = Vy->data->field_cpu;
+  real *vy_temp = Vy_temp->data->field_cpu;
 #endif
 #if ZDIM
-  real *vz = Vz->field_cpu;
-  real *vz_temp = Vz_temp->field_cpu;
+  real *vz = Vz->data->field_cpu;
+  real *vz_temp = Vz_temp->data->field_cpu;
 #endif
   if (option == VTEMP2V) {
 #if XDIM

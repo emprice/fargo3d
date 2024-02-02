@@ -19,11 +19,11 @@ void momenta_x_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx = Vx_temp->field_cpu;
-  real* mmx = Mmx->field_cpu;
-  real* mpx = Mpx->field_cpu;
+  real* vx = Vx_temp->data->field_cpu;
+  real* mmx = Mmx->data->field_cpu;
+  real* mpx = Mpx->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

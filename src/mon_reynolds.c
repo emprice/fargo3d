@@ -19,11 +19,11 @@ void mon_reynolds_cpu () {
 
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
-  real* vx = Vx->field_cpu;
-  real* vxm = VxMed->field_cpu;
-  real* vy = Vy->field_cpu;
-  real* interm = Slope->field_cpu;
+  real* dens = Density->data->field_cpu;
+  real* vx = Vx->data->field_cpu;
+  real* vxm = VxMed->data->field_cpu;
+  real* vy = Vy->data->field_cpu;
+  real* interm = Slope->data->field_cpu;
   int pitch  = Pitch_cpu;
   int pitch2d = Pitch2D;
   int stride = Stride_cpu;

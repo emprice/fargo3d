@@ -32,33 +32,33 @@ void addviscosity_sph_cpu(real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx = Vx_temp->field_cpu;
+  real* vx = Vx_temp->data->field_cpu;
 #endif
 #if YDIM
-  real* vy = Vy_temp->field_cpu;
+  real* vy = Vy_temp->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz = Vz_temp->field_cpu;
+  real* vz = Vz_temp->data->field_cpu;
 #endif
 #if XDIM
-  real* tauxx = Mmx->field_cpu;
+  real* tauxx = Mmx->data->field_cpu;
 #endif
 #if YDIM
-  real* tauyy = Mmy->field_cpu;
+  real* tauyy = Mmy->data->field_cpu;
 #endif
 #if ZDIM
-  real* tauzz = Mmz->field_cpu;
+  real* tauzz = Mmz->data->field_cpu;
 #endif
 #if (XDIM && ZDIM)
-  real* tauxz = Mpx->field_cpu;
+  real* tauxz = Mpx->data->field_cpu;
 #endif
 #if (YDIM && XDIM)
-  real* tauyx = Mpy->field_cpu;
+  real* tauyx = Mpy->data->field_cpu;
 #endif
 #if (ZDIM && YDIM)
-  real* tauzy = Mpz->field_cpu;
+  real* tauzy = Mpz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

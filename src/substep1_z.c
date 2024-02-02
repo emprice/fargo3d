@@ -33,27 +33,27 @@ void SubStep1_z_cpu (real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* p   = Pressure->field_cpu;
-  real* pot = Pot->field_cpu;
-  real* rho = Density->field_cpu;
+  real* p   = Pressure->data->field_cpu;
+  real* pot = Pot->data->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx      = Vx->field_cpu;
+  real* vx      = Vx->data->field_cpu;
 #if COLLISIONPREDICTOR
-  real* vx_half = Vx_half->field_cpu;
+  real* vx_half = Vx_half->data->field_cpu;
 #else
-  real* vx_half = Vx->field_cpu;
+  real* vx_half = Vx->data->field_cpu;
 #endif
-  real* vx_temp = Vx_temp->field_cpu;
+  real* vx_temp = Vx_temp->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz      = Vz->field_cpu;
-  real* vz_temp = Vz_temp->field_cpu;
+  real* vz      = Vz->data->field_cpu;
+  real* vz_temp = Vz_temp->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
 #if SPHERICAL
-  real* bz = Bz->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
 #endif
   int pitch  = Pitch_cpu;

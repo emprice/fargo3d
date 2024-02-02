@@ -26,13 +26,13 @@ void _ComputeForce_cpu(real x, real y, real z, real rsmoothing, real mass) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* dens = Total_Density->field_cpu;
-  real* fxi  = Mmx->field_cpu;
-  real* fyi  = Mpx->field_cpu;
-  real* fzi  = Mmy->field_cpu;
-  real* fxhi = Mpy->field_cpu;
-  real* fyhi = Vx_temp->field_cpu;
-  real* fzhi = Vy_temp->field_cpu;
+  real* dens = Total_Density->data->field_cpu;
+  real* fxi  = Mmx->data->field_cpu;
+  real* fyi  = Mpx->data->field_cpu;
+  real* fzi  = Mmy->data->field_cpu;
+  real* fxhi = Mpy->data->field_cpu;
+  real* fyhi = Vx_temp->data->field_cpu;
+  real* fzhi = Vy_temp->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+NGHX;

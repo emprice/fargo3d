@@ -18,10 +18,10 @@ void UpdateY_cpu(real dt, Field *Q, Field *Qs) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* qb = Q->field_cpu;
-  real* qs = Qs->field_cpu;
-  real* vy = Vy_temp->field_cpu;
-  real* rho_s = DensStar->field_cpu;
+  real* qb = Q->data->field_cpu;
+  real* qs = Qs->data->field_cpu;
+  real* vy = Vy_temp->data->field_cpu;
+  real* rho_s = DensStar->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

@@ -131,7 +131,7 @@ real ComputeInnerMass(real r) {
   real mass=0.0;
   real *rho;
   real innermass;
-  rho = Density->field_cpu;
+  rho = Density->data->field_cpu;
   for (k=NGHZ; k<Nz+NGHZ; k++) {
     for (j=NGHY; j<Ny+NGHY; j++) {
       for (i=NGHX; i<Nx+NGHX; i++) {

@@ -19,11 +19,11 @@ void momenta_y_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if YDIM
-  real* vy = Vy_temp->field_cpu;
-  real* mmy = Mmy->field_cpu;
-  real* mpy = Mpy->field_cpu;
+  real* vy = Vy_temp->data->field_cpu;
+  real* mmy = Mmy->data->field_cpu;
+  real* mpy = Mpy->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

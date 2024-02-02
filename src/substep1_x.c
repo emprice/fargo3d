@@ -26,17 +26,17 @@ void SubStep1_x_cpu (real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* p   = Pressure->field_cpu;
-  real* pot = Pot->field_cpu;
-  real* rho = Density->field_cpu;
+  real* p   = Pressure->data->field_cpu;
+  real* pot = Pot->data->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx      = Vx->field_cpu;
-  real* vx_temp = Vx_temp->field_cpu;
+  real* vx      = Vx->data->field_cpu;
+  real* vx_temp = Vx_temp->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

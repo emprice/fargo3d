@@ -20,13 +20,13 @@ void HallEffect_emfz_cpu(){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
-  real* jx = Jx->field_cpu;
-  real* jy = Jy->field_cpu;
-  real* emf = EmfzH->field_cpu;
-  real* eta = EtaHall->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
+  real* jx = Jx->data->field_cpu;
+  real* jy = Jy->data->field_cpu;
+  real* emf = EmfzH->data->field_cpu;
+  real* eta = EtaHall->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;
@@ -63,7 +63,7 @@ void HallEffect_emfz_cpu(){
 
 	b3 = 0.125*(bz[ll] + bz[lym] + bz[lxm] + bz[lxm-pitch] + bz[lzp] + bz[lym+stride] + bz[lxm+stride] + bz[lxm-pitch+stride]);
 	bmod = sqrt(b1*b1 + b2*b2 + b3*b3 + eps);
-	
+
 	etac = 0.25*( eta[ll] + eta[lxm] + eta[lym] + eta[lxm-pitch] );
 #if CYLINDRICAL
 	emf[ll] =  etac*(j1*b2 - j2*b1)/bmod;

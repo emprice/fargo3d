@@ -64,23 +64,23 @@ void CheckMuteY_cpu() {
 //<\INTERNAL>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
+  real* rho = Density->data->field_cpu;
 #if XDIM
-  real* vx = Vx->field_cpu;
+  real* vx = Vx->data->field_cpu;
 #endif
 #if YDIM
-  real* vy = Vy->field_cpu;
+  real* vy = Vy->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz = Vz->field_cpu;
+  real* vz = Vz->data->field_cpu;
 #endif
 #if ADIABATIC
-  real* energy = Energy->field_cpu;
+  real* energy = Energy->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

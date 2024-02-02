@@ -165,7 +165,7 @@ def format_template(template, number, side, fields, boundaries, centering):
             namecap = name.capitalize()
             ifield = f'INPUT({namecap});'
             ofield = f'OUTPUT({namecap});'
-            pfield = f'real *{name} = {namecap}->field_cpu;'
+            pfield = f'real *{name} = {namecap}->data->field_cpu;'
 
             bnd = boundaries[field[side]]
             stag = centering[name]['staggering']

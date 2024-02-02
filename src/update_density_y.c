@@ -17,9 +17,9 @@ void UpdateDensityY_cpu(real dt, Field *Q) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* qb = Q->field_cpu;
-  real* vy = Vy_temp->field_cpu;
-  real* rho_s = DensStar->field_cpu;
+  real* qb = Q->data->field_cpu;
+  real* vy = Vy_temp->data->field_cpu;
+  real* rho_s = DensStar->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

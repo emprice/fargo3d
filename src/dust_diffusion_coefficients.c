@@ -25,19 +25,19 @@ void DustDiffusion_Coefficients_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* sdiff_yfzc = Sdiffyfzc->field_cpu;
-  real* sdiff_yczc = Sdiffyczc->field_cpu;
+  real* sdiff_yfzc = Sdiffyfzc->data->field_cpu;
+  real* sdiff_yczc = Sdiffyczc->data->field_cpu;
 #if ZDIM
-  real* sdiff_yczf = Sdiffyczf->field_cpu;
-  real* sdiff_yfzf = Sdiffyfzf->field_cpu;
+  real* sdiff_yczf = Sdiffyczf->data->field_cpu;
+  real* sdiff_yfzf = Sdiffyfzf->data->field_cpu;
 #endif
 #if ALPHAVISCOSITY
 #if ISOTHERMAL
-  real* cs = Fluids[0]->Energy->field_cpu;
+  real* cs = Fluids[0]->Energy->data->field_cpu;
 #endif
 #if ADIABATIC
-  real* e = Fluids[0]->Energy->field_cpu;
-  real* rhog = Fluids[0]->Density->field_cpu;
+  real* e = Fluids[0]->Energy->data->field_cpu;
+  real* rhog = Fluids[0]->Density->data->field_cpu;
   real gamma = GAMMA;
 #endif
   real alphavisc = ALPHA;

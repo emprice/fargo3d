@@ -85,12 +85,12 @@ void _LorentzForce_cpu(real dt, int idx, int idy, int idz, int idx1, int idy1, i
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* b1 = B1->field_cpu;
-  real* b2 = B2->field_cpu;
-  real* rho = Density->field_cpu;
-  real* v = V->field_cpu;
-  real* bs1 = Bs1->field_cpu;
-  real* bs2 = Bs2->field_cpu;
+  real* b1 = B1->data->field_cpu;
+  real* b2 = B2->data->field_cpu;
+  real* rho = Density->data->field_cpu;
+  real* v = V->data->field_cpu;
+  real* bs1 = Bs1->data->field_cpu;
+  real* bs2 = Bs2->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = XIP;

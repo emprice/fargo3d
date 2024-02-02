@@ -39,31 +39,31 @@ void SubStep2_a_cpu (real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho    = Density->field_cpu;
-  real* p      = Pressure->field_cpu;
+  real* rho    = Density->data->field_cpu;
+  real* p      = Pressure->data->field_cpu;
 #if XDIM
 #if COLLISIONPREDICTOR
-  real* vx     = Vx_half->field_cpu;
+  real* vx     = Vx_half->data->field_cpu;
 #else
-  real* vx     = Vx->field_cpu;
+  real* vx     = Vx->data->field_cpu;
 #endif
-  real* pres_x = Mpx->field_cpu;
+  real* pres_x = Mpx->data->field_cpu;
 #endif
 #if YDIM
 #if COLLISIONPREDICTOR
-  real* vy     = Vy_half->field_cpu;
+  real* vy     = Vy_half->data->field_cpu;
 #else
-  real* vy     = Vy->field_cpu;
+  real* vy     = Vy->data->field_cpu;
 #endif
-  real* pres_y = Mpy->field_cpu;
+  real* pres_y = Mpy->data->field_cpu;
 #endif
 #if ZDIM
 #if COLLISIONPREDICTOR
-  real* vz     = Vz_half->field_cpu;
+  real* vz     = Vz_half->data->field_cpu;
 #else
-  real* vz     = Vz->field_cpu;
+  real* vz     = Vz->data->field_cpu;
 #endif
-  real* pres_z = Mpz->field_cpu;
+  real* pres_z = Mpz->data->field_cpu;
 #endif
   int pitch    = Pitch_cpu;
   int stride   = Stride_cpu;

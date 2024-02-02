@@ -17,12 +17,12 @@ void mon_momx_cpu () {
 
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
-  real* vx   = Vx->field_cpu;
-  real* mom  = Slope->field_cpu;
+  real* dens = Density->data->field_cpu;
+  real* vx   = Vx->data->field_cpu;
+  real* mom  = Slope->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
-  int size_x = XIP; 
+  int size_x = XIP;
   int size_y = Ny+2*NGHY;
   int size_z = Nz+2*NGHZ;
 //<\EXTERNAL>

@@ -653,22 +653,23 @@ int WriteOutputsHdf5() {
   for (int f = 0; f < NFLUIDS; ++f) {
     int d = 0;  /* local dataset counter */
     hid_t *dset_ids = hdf5.fluids.dataset_ids[f];
+    Fluid *fl = Fluids[f];
 
-    err = WriteFieldTimeDep(dset_ids[d++], Fluids[f]->Density->field_cpu);
+    err = WriteFieldTimeDep(dset_ids[d++], fl->Density->data->field_cpu);
     if (err < 0) return err;
 #if ZDIM
-    err = WriteFieldTimeDep(dset_ids[d++], Fluids[f]->Vz->field_cpu);
+    err = WriteFieldTimeDep(dset_ids[d++], fl->Vz->data->field_cpu);
     if (err < 0) return err;
 #endif
 #if YDIM
-    err = WriteFieldTimeDep(dset_ids[d++], Fluids[f]->Vy->field_cpu);
+    err = WriteFieldTimeDep(dset_ids[d++], fl->Vy->data->field_cpu);
     if (err < 0) return err;
 #endif
 #if XDIM
-    err = WriteFieldTimeDep(dset_ids[d++], Fluids[f]->Vx->field_cpu);
+    err = WriteFieldTimeDep(dset_ids[d++], fl->Vx->data->field_cpu);
     if (err < 0) return err;
 #endif
-    err = WriteFieldTimeDep(dset_ids[d++], Fluids[f]->Energy->field_cpu);
+    err = WriteFieldTimeDep(dset_ids[d++], fl->Energy->data->field_cpu);
     if (err < 0) return err;
   }
 
@@ -707,23 +708,24 @@ int WriteOutputs2dHdf5() {
   for (int f = 0; f < NFLUIDS; ++f) {
     int d = 0;  /* local dataset counter */
     hid_t *dset_ids = hdf5.stockholm.dataset_ids[f];
+    Fluid *fl = Fluids[f];
 
-    err = WriteFieldStatic(dset_ids[d++], Fluids[f]->Density0->field_cpu);
+    err = WriteFieldStatic(dset_ids[d++], fl->Density0->data->field_cpu);
     if (err < 0) return err;
 #if ZDIM
-    err = WriteFieldStatic(dset_ids[d++], Fluids[f]->Vz0->field_cpu);
+    err = WriteFieldStatic(dset_ids[d++], fl->Vz0->data->field_cpu);
     if (err < 0) return err;
 #endif
 #if YDIM
-    err = WriteFieldStatic(dset_ids[d++], Fluids[f]->Vy0->field_cpu);
+    err = WriteFieldStatic(dset_ids[d++], fl->Vy0->data->field_cpu);
     if (err < 0) return err;
 #endif
 #if XDIM
-    err = WriteFieldStatic(dset_ids[d++], Fluids[f]->Vx0->field_cpu);
+    err = WriteFieldStatic(dset_ids[d++], fl->Vx0->data->field_cpu);
     if (err < 0) return err;
 #endif
 #if ADIABATIC
-    err = WriteFieldStatic(dset_ids[d++], Fluids[f]->Energy0->field_cpu);
+    err = WriteFieldStatic(dset_ids[d++], fl->Energy0->data->field_cpu);
     if (err < 0) return err;
 #endif
   }

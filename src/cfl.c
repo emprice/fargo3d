@@ -42,33 +42,33 @@ void cfl_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* cs  = Energy->field_cpu;
-  real* rho = Density->field_cpu;
-  real* dtime = DensStar->field_cpu;
+  real* cs  = Energy->data->field_cpu;
+  real* rho = Density->data->field_cpu;
+  real* dtime = DensStar->data->field_cpu;
 #if XDIM
-  real* vx = Vx->field_cpu;
-  real* vxmed = VxMed->field_cpu;
+  real* vx = Vx->data->field_cpu;
+  real* vxmed = VxMed->data->field_cpu;
 #endif
 #if YDIM
-  real* vy = Vy->field_cpu;
+  real* vy = Vy->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz = Vz->field_cpu;
+  real* vz = Vz->data->field_cpu;
 #endif
 #if MHD
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
 #endif
 #if MHD
 #if OHMICDIFFUSION
-  real* etao = EtaOhm->field_cpu;
+  real* etao = EtaOhm->data->field_cpu;
 #endif
 #if HALLEFFECT
-  real* etahall = EtaHall->field_cpu;
+  real* etahall = EtaHall->data->field_cpu;
 #endif
 #if AMBIPOLARDIFFUSION
-  real* etaad   = EtaAD->field_cpu;
+  real* etaad   = EtaAD->data->field_cpu;
 #endif
 #endif
   int pitch  = Pitch_cpu;

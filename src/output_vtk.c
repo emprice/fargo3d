@@ -89,6 +89,7 @@ void write_vtk_coordinates(FILE *ofile, Field *field) {
 void write_vtk_scalar(FILE *ofile, Field *f) {
   int i, j, k;
   real temp;
+  real *data = f->data->field_cpu;
 #if FLOAT
   fprintf(ofile, "SCALARS %s FLOAT\n", f->name);
 #else
@@ -121,7 +122,7 @@ void write_vtk_scalar(FILE *ofile, Field *f) {
       for (j=NGHY; j<Ny+NGHY; j++) {
 #endif
 #endif
-	temp = Swap(f->field_cpu[l]);
+	temp = Swap(data[l]);
 	fwrite(&temp, sizeof(real), 1, ofile);
 #if YDIM
       }

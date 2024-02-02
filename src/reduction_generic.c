@@ -6,8 +6,8 @@ void name_reduction_cpu(macro) (Field *F, int ymin, int ymax, int zmin, int zmax
   int i,j,k;
   real *reduc2d;
   real *f;
-  reduc2d = Reduction2D->field_cpu;
-  f = F->field_cpu;
+  reduc2d = Reduction2D->data->field_cpu;
+  f = F->data->field_cpu;
 
   INPUT (F);
   OUTPUT2D (Reduction2D);

@@ -16,9 +16,9 @@ void RamComputeUstar_cpu(real dt) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* vxmed      = VxMed->field_cpu;
-  real* ustarmin   = UStarmin->field_cpu;
-  real* phistarmin = PhiStarmin->field_cpu;
+  real* vxmed      = VxMed->data->field_cpu;
+  real* ustarmin   = UStarmin->data->field_cpu;
+  real* phistarmin = PhiStarmin->data->field_cpu;
   int pitch   = Pitch_cpu;
   int stride  = Stride_cpu;
   int size_x  = Nx+2*NGHX;

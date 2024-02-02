@@ -266,7 +266,7 @@ void comm_cpu (int options) {
       if (comm->direction == direction) {
 	if (comm->src == CPU_Rank) {
 	  for (i = 0; i < nvar; i++) {
-	    field[i] = f[i]->field_cpu;
+	    field[i] = f[i]->data->field_cpu;
 	    Input_Contour_Inside (f[i],direction);
 	  }
 	}
@@ -282,7 +282,7 @@ void comm_cpu (int options) {
 	if ((comm->parity == parity) && (comm->direction == direction)) {
 	  if (comm->src == CPU_Rank) {
 	    for (i = 0; i < nvar; i++) {
-	      field[i] = f[i]->field_cpu;
+	      field[i] = f[i]->data->field_cpu;
 	      for (j = comm->yminsrc; j < comm->ymaxsrc; j++) {
 		for (k = comm->zminsrc; k < comm->zmaxsrc; k++) {
 		  offset = (i*(comm->size)+j-comm->yminsrc+(k-comm->zminsrc)*comm->stride)*(Nx+2*NGHX);
@@ -315,14 +315,16 @@ void comm_cpu (int options) {
 		 device. We therefore split send and receive requests. */
 	    }
 	    for (i = 0; i < nvar; i++) {
-	      field[i] = f[i]->field_cpu;
+	      field[i] = f[i]->data->field_cpu;
 	      /* The arithmetical trick below gives the direction of
 		 reception. For instance, if a send is toward the
 		 left, the receive must be for the right and
 		 vice-versa. The expression yields the following
 		 involutive correspondences: 0 <--> 1 and 2 <--> 3 */
+#if GPU
 	      if (direction < 4)
-		f[i]->fresh_outside_contour_gpu[1-direction+4*(direction/2)] = NO;
+		    f[i]->fresh.outside_contour_gpu[1-direction+4*(direction/2)] = NO;
+#endif
 	      skip_line = 0;
 	      if ((comm->direction == LEFT) && (special[i] == 1)) skip_line=1;
 	      for (j = comm->ymindst+skip_line; j < comm->ymaxdst; j++) {
@@ -345,7 +347,7 @@ void comm_cpu (int options) {
       if (comm->direction == direction) {
 	if (comm->dst == CPU_Rank) {
 	  for (i = 0; i < nvar; i++) {
-	    field[i] = f[i]->field_cpu;
+	    field[i] = f[i]->data->field_cpu;
 	    if (direction < 4)
 	      Output_Contour_Outside (f[i],1-direction+4*(direction/2));
 	  }

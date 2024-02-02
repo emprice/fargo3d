@@ -60,7 +60,7 @@ void Potential_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* pot  = Pot->field_cpu;
+  real* pot  = Pot->data->field_cpu;
   real* xplanet = Sys->x_cpu;
   real* yplanet = Sys->y_cpu;
   real* zplanet = Sys->z_cpu;

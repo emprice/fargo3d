@@ -12,9 +12,9 @@ void Reset_field_cpu (Field *f) {
 //<USER_DEFINED>
   OUTPUT(f);
 //<\USER_DEFINED>
- 
+
 //<EXTERNAL>
-  real* faux = f->field_cpu;
+  real* faux = f->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;
@@ -29,7 +29,7 @@ void Reset_field_cpu (Field *f) {
   int ll;
 //<\INTERNAL>
 
-  
+
 //<MAIN_LOOP>
 
   i = j = k = 0;

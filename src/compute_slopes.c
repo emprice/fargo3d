@@ -20,15 +20,15 @@ void ComputeSlopes_cpu(int idx, int idy, int idz, Field *f, Field *s) {
     ComputeSlope (vx, 0,1,0)). The slope has same centering as the
     input field. Van Leer's slopes are calculated in this routine.
    */
-  
+
 //<USER_DEFINED>
   INPUT(f);
   OUTPUT(s);
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* field = f->field_cpu;
-  real* slope = s->field_cpu;
+  real* field = f->data->field_cpu;
+  real* slope = s->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = XIP;
@@ -62,13 +62,13 @@ void ComputeSlopes_cpu(int idx, int idy, int idz, Field *f, Field *s) {
 //<#>
 	ll = l;
 
-	delta = (zone_size_x(i,j,k)*idx +		
-		 zone_size_y(j,k)*idy +       
-		 zone_size_z(j,k)*idz);	
-	
+	delta = (zone_size_x(i,j,k)*idx +
+		 zone_size_y(j,k)*idy +
+		 zone_size_z(j,k)*idz);
+
 	lp = lxp*idx + lyp*idy + lzp*idz;
 	lm = lxm*idx + lym*idy + lzm*idz;
-	
+
 	dfp = field[lp]-field[ll];
 	dfm = field[ll]-field[lm];
 	if(dfp*dfm<=0.0)

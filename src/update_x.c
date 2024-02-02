@@ -18,10 +18,10 @@ void UpdateX_cpu(real dt, Field *Q, Field *Qs, Field *Vx_t) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* qb = Q->field_cpu;
-  real* qs = Qs->field_cpu;
-  real* vx = Vx_t->field_cpu;
-  real* rho_s = DensStar->field_cpu;
+  real* qb = Q->data->field_cpu;
+  real* qs = Qs->data->field_cpu;
+  real* vx = Vx_t->data->field_cpu;
+  real* rho_s = DensStar->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = XIP;

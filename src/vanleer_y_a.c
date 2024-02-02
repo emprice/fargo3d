@@ -15,8 +15,8 @@ void VanLeerY_a_cpu(Field *Q){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* q = Q->field_cpu;
-  real* slope = Slope->field_cpu;
+  real* q = Q->data->field_cpu;
+  real* slope = Slope->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

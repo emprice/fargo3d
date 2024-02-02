@@ -15,15 +15,19 @@
 #define Input 0
 #define Output 1
 
-#define XY 0
-#define YZ 1
-#define ZX 2
+typedef enum {
+  XY,
+  YZ,
+  ZX,
+} field_type_t;
 
 //Types of variables
-#define INT     0
-#define REAL    1
-#define STRING  2
-#define BOOL    3
+typedef enum {
+  INT,
+  REAL,
+  STRING,
+  BOOL,
+} data_type_t;
 
 #define ALL      1
 #define SPECIFIC 0

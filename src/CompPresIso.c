@@ -17,9 +17,9 @@ void ComputePressureFieldIso_cpu () {
 
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
-  real* cs   = Energy->field_cpu;
-  real* pres = Pressure->field_cpu;
+  real* dens = Density->data->field_cpu;
+  real* cs   = Energy->data->field_cpu;
+  real* pres = Pressure->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

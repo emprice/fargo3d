@@ -10,7 +10,10 @@
 void ComputeVmed(Field *V) {
   int j,k;
   int ll2D;
-  
+
+  real *vxmed = VxMed->data->field_cpu;
+  real *reduction = Reduction2D->data->field_cpu;
+
   FARGO_SAFE(ComputeVweight(V, Qs));
 
   reduction_SUM(Qs, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
@@ -27,7 +30,7 @@ void ComputeVmed(Field *V) {
     for (j = 0; j < Ny+2*NGHY; j++) {
 #endif
       ll2D = l2D;
-      VxMed->field_cpu[ll2D] = Reduction2D->field_cpu[ll2D]/(XMAX-XMIN);
+      vxmed[ll2D] = reduction[ll2D]/(XMAX-XMIN);
 #if YDIM
     }
 #endif
@@ -40,15 +43,15 @@ void ComputeVmed(Field *V) {
 
 
 void ComputeVweight_cpu(Field *V, Field *Q) {
-  
+
 //<USER_DEFINED>
   INPUT(V);
   OUTPUT(Q);
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* v     = V->field_cpu;
-  real* q     = Q->field_cpu;
+  real* v     = V->data->field_cpu;
+  real* q     = Q->data->field_cpu;
   int pitch   = Pitch_cpu;
   int stride  = Stride_cpu;
   int size_x  = Nx+2*NGHX;
@@ -68,12 +71,12 @@ void ComputeVweight_cpu(Field *V, Field *Q) {
 //<\CONSTANT>
 
 //<MAIN_LOOP>
-  
+
   i = j = k = 0;
 
 #if ZDIM
   for (k = 0; k < size_z; k++) {
-#endif 
+#endif
 #if YDIM
     for (j = 0; j < size_y; j++) {
 #endif

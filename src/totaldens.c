@@ -15,8 +15,8 @@ void ComputeTotalDensity_cpu () {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
-  real* totaldens = Total_Density->field_cpu;
+  real* dens = Density->data->field_cpu;
+  real* totaldens = Total_Density->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;

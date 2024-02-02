@@ -22,14 +22,14 @@ void AmbipolarDiffusion_emfz_cpu(){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* bx = Bx->field_cpu;
-  real* by = By->field_cpu;
-  real* bz = Bz->field_cpu;
-  real* jx = Jx->field_cpu;
-  real* jy = Jy->field_cpu;
-  real* jz = Jz->field_cpu;
-  real* eta = EtaAD->field_cpu;
-  real* emf = Emfz->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* by = By->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
+  real* jx = Jx->data->field_cpu;
+  real* jy = Jy->data->field_cpu;
+  real* jz = Jz->data->field_cpu;
+  real* eta = EtaAD->data->field_cpu;
+  real* emf = Emfz->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;

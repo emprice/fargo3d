@@ -55,23 +55,23 @@ void _init_stockholm() {
   i = j = k = 0;
 
 #if XDIM
-  real* vx  = Vx->field_cpu;
-  real* vx0 = Vx0->field_cpu;
+  real* vx  = Vx->data->field_cpu;
+  real* vx0 = Vx0->data->field_cpu;
 #endif
 #if YDIM
-  real* vy  = Vy->field_cpu;
-  real* vy0 = Vy0->field_cpu;
+  real* vy  = Vy->data->field_cpu;
+  real* vy0 = Vy0->data->field_cpu;
 #endif
 #if ZDIM
-  real* vz  = Vz->field_cpu;
-  real* vz0 = Vz0->field_cpu;
+  real* vz  = Vz->data->field_cpu;
+  real* vz0 = Vz0->data->field_cpu;
 #endif
 #if ADIABATIC
-  real* e    = Energy->field_cpu;
-  real* e0   = Energy0->field_cpu;
+  real* e    = Energy->data->field_cpu;
+  real* e0   = Energy0->data->field_cpu;
 #endif
-  real* rho  = Density->field_cpu;
-  real* rho0 = Density0->field_cpu;
+  real* rho  = Density->data->field_cpu;
+  real* rho0 = Density0->data->field_cpu;
 
 #if ZDIM
   for (k=0; k<Nz+2*NGHZ; k++) {

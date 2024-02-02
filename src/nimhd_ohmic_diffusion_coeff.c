@@ -14,7 +14,7 @@ void OhmicDiffusion_coeff_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* eta  = EtaOhm->field_cpu;
+  real* eta  = EtaOhm->data->field_cpu;
   real etao  = OHMICDIFFUSIONCOEFF;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

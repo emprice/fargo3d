@@ -16,9 +16,9 @@ void AdvectSHIFT_cpu (Field *F, FieldInt2D *NS) {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* f     = F->field_cpu;
-  real* aux   = Pressure->field_cpu;
-  int* nshift = NS->field_cpu;
+  real* f     = F->data->field_cpu;
+  real* aux   = Pressure->data->field_cpu;
+  int* nshift = NS->data->field_cpu;
   int pitch   = Pitch_cpu;
   int stride  = Stride_cpu;
   int size_x  = Nx+2*NGHX;

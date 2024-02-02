@@ -20,7 +20,7 @@ void _collisions_cpu(real dt, int id1, int id2, int id3, int option) {
   for (ii=0; ii<NFLUIDS; ii++) {
 
     INPUT(Fluids[ii]->Density);
-    rho[ii]  = Fluids[ii]->Density->field_cpu;
+    rho[ii]  = Fluids[ii]->Density->data->field_cpu;
 
     //Collisions along X
     #if XDIM
@@ -28,14 +28,14 @@ void _collisions_cpu(real dt, int id1, int id2, int id3, int option) {
       if (option == 1) {
 	INPUT(Fluids[ii]->Vx_temp);
 	OUTPUT(Fluids[ii]->Vx_temp);
-	velocities_input[ii] = Fluids[ii]->Vx_temp->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vx_temp->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vx_temp->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vx_temp->data->field_cpu;
       }
       if (option == 0) {
 	INPUT(Fluids[ii]->Vx);
 	OUTPUT(Fluids[ii]->Vx_half);
-	velocities_input[ii] = Fluids[ii]->Vx->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vx_half->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vx->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vx_half->data->field_cpu;
       }
     }
     #endif
@@ -46,14 +46,14 @@ void _collisions_cpu(real dt, int id1, int id2, int id3, int option) {
       if (option == 1) {
 	INPUT(Fluids[ii]->Vy_temp);
 	OUTPUT(Fluids[ii]->Vy_temp);
-	velocities_input[ii] = Fluids[ii]->Vy_temp->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vy_temp->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vy_temp->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vy_temp->data->field_cpu;
       }
       if (option == 0) {
 	INPUT(Fluids[ii]->Vy);
 	OUTPUT(Fluids[ii]->Vy_half);
-	velocities_input[ii] = Fluids[ii]->Vy->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vy_half->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vy->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vy_half->data->field_cpu;
       }
     }
     #endif
@@ -64,14 +64,14 @@ void _collisions_cpu(real dt, int id1, int id2, int id3, int option) {
       if (option == 1) {
 	INPUT(Fluids[ii]->Vz_temp);
 	OUTPUT(Fluids[ii]->Vz_temp);
-	velocities_input[ii] = Fluids[ii]->Vz_temp->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vz_temp->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vz_temp->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vz_temp->data->field_cpu;
       }
       if (option == 0) {
 	INPUT(Fluids[ii]->Vz);
 	OUTPUT(Fluids[ii]->Vz_half);
-	velocities_input[ii] = Fluids[ii]->Vz->field_cpu;
-	velocities_output[ii] = Fluids[ii]->Vz_half->field_cpu;
+	velocities_input[ii] = Fluids[ii]->Vz->data->field_cpu;
+	velocities_output[ii] = Fluids[ii]->Vz_half->data->field_cpu;
       }
     }
     #endif

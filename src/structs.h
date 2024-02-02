@@ -64,27 +64,24 @@ struct zmeanprop {
   boolean NeverReset;
 };
 
-struct field { //Multiple fields on code (density, vx, vy,...)
-  char *name;
-  real *field_cpu;
-  real *backup; // used for creation of check points in debugging CPU vs GPU
-  real *secondary_backup; // same thing
-  real *field_gpu;
-  int x_cpus;
-  int y_cpus;
-  int type;
-  boolean fresh_cpu;
-  boolean fresh_gpu;
-  boolean fresh_inside_contour_cpu[4];
-  boolean fresh_inside_contour_gpu[4];
-  boolean fresh_outside_contour_cpu[4];
-  boolean fresh_outside_contour_gpu[4];
-  struct field *next; // Linkedlist
-  struct field **owner; //used for aliases
+typedef struct {
+  void *field_cpu;
 #if GPU
+  void *field_gpu;
   struct cudaPitchedPtr gpu_pp;
   struct cudaPitchedPtr cpu_pp;
 #endif
+  struct field *owner;
+} field_data_t;
+
+struct field { //Multiple fields on code (density, vx, vy,...)
+  char *name;
+  real *backup; // used for creation of check points in debugging CPU vs GPU
+  real *secondary_backup; // same thing
+  field_data_t *data;
+  int x_cpus;
+  int y_cpus;
+  struct field *next; // Linkedlist
   char file_origin[MAXLINELENGTH];
   int line_origin;
   real *x;
@@ -92,6 +89,18 @@ struct field { //Multiple fields on code (density, vx, vy,...)
   real *z;
   double *zmean;
   struct zmeanprop zp;
+  field_type_t type;
+
+  struct {
+    boolean on_cpu;
+    boolean on_gpu;
+    boolean inside_contour_cpu[4];
+    boolean outside_contour_cpu[4];
+#if GPU
+    boolean inside_contour_gpu[4];
+    boolean outside_contour_gpu[4];
+#endif
+  } fresh;
 };
 
 struct fluid {
@@ -120,29 +129,31 @@ struct fluid {
 
 struct field2D { //Multiple 2D fields on code (azimuthal averages, etc.)
   char *name;
-  real *field_cpu;
   real *backup; // used for creation of check points in debugging CPU vs GPU
   real *secondary_backup;
-  real *field_gpu;
+  field_data_t *data;
   int x_cpus;
   int y_cpus;
   size_t pitch;
   int kind;
-  boolean fresh_cpu;
-  boolean fresh_gpu;
+  struct {
+    boolean on_cpu;
+    boolean on_gpu;
+  } fresh;
   struct field2D *next; // Linkedlist
 };
 
 struct fieldint2D { //Multiple 2D fields on code (azimuthal averages, etc.)
   char *name;
-  int *field_cpu;
   int *backup;
   int *secondary_backup;
-  int *field_gpu;
+  field_data_t *data;
   int x_cpus;
   int y_cpus;
-  boolean fresh_cpu;
-  boolean fresh_gpu;
+  struct {
+    boolean on_cpu;
+    boolean on_gpu;
+  } fresh;
   struct fieldint2D *next; // Linkedlist
 };
 

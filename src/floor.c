@@ -16,7 +16,7 @@ void Floor_cpu() {
 
 
 //<EXTERNAL>
-  real* dens = Density->field_cpu;
+  real* dens = Density->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

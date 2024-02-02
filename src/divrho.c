@@ -17,9 +17,9 @@ void DivideByRho_cpu(Field *Q) {
 
 
 //<EXTERNAL>
-  real* q      = Q->field_cpu;
-  real* divrho = DivRho->field_cpu;
-  real* rho    = Density->field_cpu;
+  real* q      = Q->data->field_cpu;
+  real* divrho = DivRho->data->field_cpu;
+  real* rho    = Density->data->field_cpu;
   int size_x = Nx+2*NGHX;
   int size_y = Ny+2*NGHY;
   int size_z = Nz+2*NGHZ;

@@ -25,10 +25,10 @@ void VanLeerY_b_cpu(real dt, Field *Q, Field *Qs){
 //<\INTERNAL>
 
 //<EXTERNAL>
-  real* q = Q->field_cpu;
-  real* qs = Qs->field_cpu;
-  real* slope = Slope->field_cpu;
-  real* vy = Vy_temp -> field_cpu;
+  real* q = Q->data->field_cpu;
+  real* qs = Qs->data->field_cpu;
+  real* slope = Slope->data->field_cpu;
+  real* vy = Vy_temp->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;

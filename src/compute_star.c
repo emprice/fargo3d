@@ -106,17 +106,17 @@ void _ComputeStar_cpu(real dt, int idx1, int idy1, int idz1, int idx2, int idy2,
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho = Density->field_cpu;
-  real* b1  = B1->field_cpu;
-  real* b2  = B2->field_cpu;
-  real* v1  = V1->field_cpu;
-  real* v2  = V2->field_cpu;
-  real* bs  = Bs->field_cpu;
-  real* vs  = Vs->field_cpu;
-  real* slope_b   = Slope_b->field_cpu;
-  real* slope_v   = Slope_v->field_cpu;
-  real* slope_bvl = Slope_bvl->field_cpu;
-  real* slope_vvl = Slope_vvl->field_cpu;
+  real* rho = Density->data->field_cpu;
+  real* b1  = B1->data->field_cpu;
+  real* b2  = B2->data->field_cpu;
+  real* v1  = V1->data->field_cpu;
+  real* v2  = V2->data->field_cpu;
+  real* bs  = Bs->data->field_cpu;
+  real* vs  = Vs->data->field_cpu;
+  real* slope_b   = Slope_b->data->field_cpu;
+  real* slope_v   = Slope_v->data->field_cpu;
+  real* slope_bvl = Slope_bvl->data->field_cpu;
+  real* slope_vvl = Slope_vvl->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = XIP;

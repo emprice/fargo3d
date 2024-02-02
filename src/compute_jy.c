@@ -16,9 +16,9 @@ void ComputeJy_cpu() {
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* bx = Bx->field_cpu;
-  real* bz = Bz->field_cpu;
-  real* jy = Jy->field_cpu;
+  real* bx = Bx->data->field_cpu;
+  real* bz = Bz->data->field_cpu;
+  real* jy = Jy->data->field_cpu;
   real mu0 = MU0;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;

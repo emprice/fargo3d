@@ -5,6 +5,7 @@ void Write2D (Field2D *f, char *filename, char *dir, int kind) {
   real profile[MAX1D], gprofile[MAX1D], value;
   char name[MAXLINELENGTH];
   FILE *out;
+  real *data = f->data->field_cpu;
 
   INPUT2D (f);
 
@@ -21,7 +22,7 @@ void Write2D (Field2D *f, char *filename, char *dir, int kind) {
       j = jg-y0cell;
       k = kg-z0cell;
       if ((j >= 0) && (j < Ny+2*NGHY) && (k >= 0) && (k < Nz+2*NGHZ))
-	value = f->field_cpu[l2D];
+	value = data[l2D];
       if ((j >= NGHY) && (j < NGHY+Ny) && (k >= NGHZ) && (k < NGHZ+Nz))
 	profile[jg] = value;
       // In the tests below we deal with the different kinds of ghosts if we have to dump them
@@ -66,6 +67,7 @@ boolean Read2D (Field2D *f, char *filename, char *dir, int kind) {
   FILE *in;
   boolean error_occured=FALSE;
   int relay, filesize, sz;
+  real *data = f->data->field_cpu;
 
   OUTPUT2D (f);
 
@@ -98,9 +100,9 @@ boolean Read2D (Field2D *f, char *filename, char *dir, int kind) {
 	j = jg-y0cell;
 	k = kg-z0cell;
 	if ((j >= 0) && (j < Ny+2*NGHY) && (k >= 0) && (k < Nz+2*NGHZ) && (kind == GHOSTINC))
-	  f->field_cpu[l2D] = gprofile[jg];
+	  data[l2D] = gprofile[jg];
 	if ((j >= NGHY) && (j < NGHY+Ny) && (k >= NGHZ) && (k < NGHZ+Nz) && (kind == NOGHOSTINC))
-	  f->field_cpu[l2D] = gprofile[jg];
+	  data[l2D] = gprofile[jg];
       }
     }
     fclose (in);

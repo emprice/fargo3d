@@ -236,7 +236,7 @@ void WriteField2D(Field2D *f, int n) {
   INPUT2D (f);
   sprintf(filename, "%s%s%d_%d.dat", OUTPUTDIR, f->name, n, CPU_Rank);
   fo = fopen(filename,"w");
-  fwrite(f->field_cpu, sizeof(real), (Ny+2*NGHY)*(Nz+2*NGHZ), fo);
+  fwrite(f->data->field_cpu, sizeof(real), (Ny+2*NGHY)*(Nz+2*NGHZ), fo);
   fclose(fo);
 }
 
@@ -246,7 +246,7 @@ void WriteFieldInt2D(FieldInt2D *f, int n) {
   INPUT2DINT (f);
   sprintf(filename, "%s%s%d_%d.dat", OUTPUTDIR, f->name, n, CPU_Rank);
   fo = fopen(filename,"w");
-  fwrite(f->field_cpu, sizeof(int), (Ny+2*NGHY)*(Nz+2*NGHZ), fo);
+  fwrite(f->data->field_cpu, sizeof(int), (Ny+2*NGHY)*(Nz+2*NGHZ), fo);
   fclose(fo);
 }
 
@@ -254,12 +254,13 @@ void WriteField(Field *f, int n) {
   int i,j,k;
   char filename[200];
   FILE *fo;
+  real *data = f->data->field_cpu;
   INPUT (f);
   sprintf(filename, "%s%s%d_%d.dat", OUTPUTDIR, f->name, n, CPU_Rank);
   fo = fopen(filename,"w");
   for (k=NGHZ; k<Nz+NGHZ; k++) { //Write grid without ghost cells
     for (j=NGHY; j<Ny+NGHY; j++) {
-      fwrite(f->field_cpu+j*(Nx+2*NGHX)+k*Stride+NGHX, sizeof(real), Nx, fo);
+      fwrite(data+j*(Nx+2*NGHX)+k*Stride+NGHX, sizeof(real), Nx, fo);
     }
   }
   fclose(fo);
@@ -269,12 +270,13 @@ void WriteFieldGhost(Field *f, int n) { // Diagnostic function
   int i,j,k;
   char filename[200];
   FILE *fo;
+  real *data = f->data->field_cpu;
   INPUT (f);
   sprintf(filename, "%s%s%d_%d.dat", OUTPUTDIR, f->name, n, CPU_Rank);
   fo = fopen(filename,"w");
   for (k=0; k<Nz+2*NGHZ; k++) { //Write grid with ghost cells
     for (j=0; j<Ny+2*NGHY; j++) {
-      fwrite(f->field_cpu+j*(Nx+2*NGHX)+k*Stride, sizeof(real), Nx+2*NGHX, fo);
+      fwrite(data+j*(Nx+2*NGHX)+k*Stride, sizeof(real), Nx+2*NGHX, fo);
     }
   }
   fclose(fo);
@@ -288,6 +290,7 @@ void WriteMerging(Field *f, int n) {
   char outname[MAXLINELENGTH];
   int next, previous;
   int relay;
+  real *data = f->data->field_cpu;
 
   sprintf(outname, "%s%s%d.dat", OUTPUTDIR, f->name, n);
 
@@ -312,7 +315,7 @@ void WriteMerging(Field *f, int n) {
     for (j = 0; j<Ncpu_x; j++) {
       if ((J==j) && (k>=Z0) && (k<(Z0+Nz))) {
 	for (jj = NGHY; jj < Ny+NGHY; jj++)
-	  fwrite(f->field_cpu+(k-Z0+NGHZ)*Stride+jj*(Nx+2*NGHX)+NGHX, sizeof(real)*Nx, 1, fo);
+	  fwrite(data+(k-Z0+NGHZ)*Stride+jj*(Nx+2*NGHX)+NGHX, sizeof(real)*Nx, 1, fo);
       }
       fflush(fo);
       MPI_Barrier(MPI_COMM_WORLD);
@@ -488,10 +491,10 @@ MPI_Offset ParallelIO(Field *field, int n, int mode, MPI_Offset file_offset, int
 		    "native", MPI_INFO_NULL);
 
   if (mode & MPI_MODE_WRONLY)
-    MPI_File_write_all(mpi_file, field->field_cpu, 1,
+    MPI_File_write_all(mpi_file, field->data->field_cpu, 1,
 		       mpi_memtype, &status);
   else
-    MPI_File_read_all(mpi_file, field->field_cpu, 1,
+    MPI_File_read_all(mpi_file, field->data->field_cpu, 1,
 		      mpi_memtype, &status);
 
   if(writeoffset == TRUE ) Write_offset(file_offset, field->name, Fluids[FluidIndex]->name);
@@ -544,7 +547,7 @@ void DumpAllFields (int number) {
   current = ListOfGrids;
   printf ("Dumping at #%d\t", number);
   while (current != NULL) {
-    if (*(current->owner) == current) {
+    if (current->data->owner == current) {
       if (!CPU_Rank)
 	printf ("%s ", current->name);
       __WriteField (current, number);

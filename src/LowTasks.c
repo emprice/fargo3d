@@ -694,9 +694,9 @@ void CreateFields() {
 #endif
 
   //Claim ownership of storage area
-  *(Emfx->owner) = Emfx;
-  *(Emfy->owner) = Emfy;
-  *(Emfz->owner) = Emfz;
+  Emfx->data->owner = Emfx;
+  Emfy->data->owner = Emfy;
+  Emfz->data->owner = Emfz;
 
   Divergence = CreateField("divb", 0, 0,0,0);
 
@@ -713,7 +713,7 @@ real ComputeMass() {
 
   INPUT (Density);
 
-  rho = Density->field_cpu;
+  rho = Density->data->field_cpu;
 
   i = j = k = 0;
 #if ZDIM
@@ -760,9 +760,9 @@ void SaveState () {
       }
       current->backup = backup;
     }
-    if (*(current->owner) == current) {
+    if (current->data->owner == current) {
       INPUT (current);
-      memcpy (current->backup, current->field_cpu, size);
+      memcpy (current->backup, current->data->field_cpu, size);
     }
     current = current->next;
   }
@@ -784,9 +784,9 @@ void SaveStateSecondary () {
       }
       current->secondary_backup = backup;
     }
-    if (*(current->owner) == current) {
+    if (current->data->owner == current) {
       INPUT (current);
-      memcpy (current->secondary_backup, current->field_cpu, size);
+      memcpy (current->secondary_backup, current->data->field_cpu, size);
     }
     current = current->next;
   }
@@ -802,8 +802,8 @@ void RestoreState () {
       prs_error ("Cannot restore state: no check point ever created\n");
     }
     size = sizeof(real)*(Nx+2*NGHX)*(Ny+2*NGHY)*(Nz+2*NGHZ);
-    if (*(current->owner) == current) {
-      memcpy (current->field_cpu, current->backup, size);
+    if (current->data->owner == current) {
+      memcpy (current->data->field_cpu, current->backup, size);
       OUTPUT (current);
     }
     current = current->next;
@@ -891,6 +891,7 @@ void RestartVTK(Field *f, int n) {
   int relay;
 
   static int count = 0;
+  real *data = f->data->field_cpu;
 
   name = f->name;
 
@@ -919,7 +920,7 @@ void RestartVTK(Field *f, int n) {
       for (i=NGHX; i<Nx+NGHX; i++) {
 	for (j=NGHY; j<Ny+NGHY; j++) {
 	  temp = fread(&temp1, sizeof(real), 1, fi);
-	  f->field_cpu[l] = Swap(temp1);
+	  data[l] = Swap(temp1);
         }
       }
     }
@@ -928,7 +929,7 @@ void RestartVTK(Field *f, int n) {
       for (k=NGHZ; k<Nz+NGHZ; k++) {
 	for (j=NGHY; j<Ny+NGHY; j++) {
 	  temp = fread(&temp1, sizeof(real), 1, fi);
-	  f->field_cpu[l] = Swap(temp1);
+	  data[l] = Swap(temp1);
 	}
       }
     }
@@ -965,7 +966,7 @@ void RestartVTK(Field *f, int n) {
 	fseek(fi, curpos+(origin+(i-NGHX)*NY+(k-NGHZ)*NX*NY)*sizeof(real), SEEK_SET);
 	for (j=NGHY;j<Ny+NGHY;j++) {
 	  temp = fread(&temp1, sizeof(real), 1, fi);
-	  f->field_cpu[l] = Swap(temp1);
+	  data[l] = Swap(temp1);
 	}
       }
     }
@@ -975,7 +976,7 @@ void RestartVTK(Field *f, int n) {
 	fseek(fi, curpos+(origin+(i-NGHX)*NY+(k-NGHZ)*NX*NY)*sizeof(real), SEEK_SET);
 	for (j=NGHY;j<Ny+NGHY;j++) {
 	  temp = fread(&temp1, sizeof(real), 1, fi);
-	  f->field_cpu[l] = Swap(temp1);
+	  data[l] = Swap(temp1);
 	}
       }
     }
@@ -996,7 +997,7 @@ void RestartDat(Field *field, int n) {
 
   int temp;
 
-  f = field->field_cpu;
+  f = field->data->field_cpu;
   name = field->name;
 
   if(Restart == YES) {

@@ -22,19 +22,19 @@ void HallEffect_UpdateEmfs_cpu(){
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* emfx = Emfx->field_cpu;
-  real* emfy = Emfy->field_cpu;
-  real* emfz = Emfz->field_cpu;
-  real* emfxH = EmfxH->field_cpu;
-  real* emfyH = EmfyH->field_cpu;
-  real* emfzH = EmfzH->field_cpu;
+  real* emfx = Emfx->data->field_cpu;
+  real* emfy = Emfy->data->field_cpu;
+  real* emfz = Emfz->data->field_cpu;
+  real* emfxH = EmfxH->data->field_cpu;
+  real* emfyH = EmfyH->data->field_cpu;
+  real* emfzH = EmfzH->data->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx;
   int size_y = Ny+2*NGHY-1;
   int size_z = Nz+2*NGHZ-1;
 //<\EXTERNAL>
-  
+
 //<INTERNAL>
   int i;
   int j;
@@ -52,7 +52,7 @@ void HallEffect_UpdateEmfs_cpu(){
 
 	emfx[ll] += emfxH[ll];
 	emfy[ll] += emfyH[ll];
-       	emfz[ll] += emfzH[ll];      
+       	emfz[ll] += emfzH[ll];
 //<\#>
       }
     }
