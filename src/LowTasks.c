@@ -384,7 +384,7 @@ void InitSpace() {
 
   MPI_Barrier(MPI_COMM_WORLD);
 
-  if (!already_x) {
+  if (!HDF5 && !already_x) {
     if(CPU_Master) {
       sprintf(domain_out, "%s%s", OUTPUTDIR, "domain_x.dat");
       domain = fopen(domain_out, "w");
@@ -395,7 +395,7 @@ void InitSpace() {
     }
   }
 
-  if (!already_y) {
+  if (!HDF5 && !already_y) {
     if (CPU_Rank > 0) { // Force sequential write
       MPI_Recv (&relay, 1, MPI_INT, CPU_Rank-1, 42, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
@@ -428,8 +428,8 @@ void InitSpace() {
 
   MPI_Barrier (MPI_COMM_WORLD);
 
-  if (!already_z) {
-    if (CPU_Rank > 0) { // Force sequential read
+  if (!HDF5 && !already_z) {
+    if (CPU_Rank > 0) { // Force sequential write
       MPI_Recv (&relay, 1, MPI_INT, CPU_Rank-1, 43, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
     sprintf(domain_out, "%s%s", OUTPUTDIR, "domain_z.dat");
@@ -453,7 +453,7 @@ void InitSpace() {
       }
       fclose(domain);
     }
-    if (CPU_Rank < CPU_Number-1) {  // Force sequential read
+    if (CPU_Rank < CPU_Number-1) {  // Force sequential write
       MPI_Send (&relay, 1, MPI_INT, CPU_Rank+1, 43, MPI_COMM_WORLD);
     }
 
@@ -596,7 +596,6 @@ void CreateFields() {
   Reduction2D = CreateField2D ("Reduction2D", YZ);
 
 #if (XDIM || MHD)
-
   Mpx              = CreateField   ("Moment_Plus_X" , 0, 1,0,0);
   Mmx              = CreateField   ("Moment_Minus_X", 0, 1,0,0);
 
