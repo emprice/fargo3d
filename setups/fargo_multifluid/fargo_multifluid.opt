@@ -1,6 +1,6 @@
 # BEGIN
 # The "fargo_multifluid" setup is the 2D polar setup that corresponds to the
-# standard setup of the former FARGO code including a gas disk with multiple 
+# standard setup of the former FARGO code including a gas disk with multiple
 # dust species.
 # In order to run it, do:
 # make SETUP=fargo_multifluid
@@ -36,8 +36,9 @@ FARGO_OPT += -DVISCOSITY
 
 #Drag force between species
 FARGO_OPT += -DDRAGFORCE
-FARGO_OPT += -DSTOKESNUMBER
 FARGO_OPT += -DDUSTDIFFUSION
+#FARGO_OPT += -DSTOKESNUMBER
+FARGO_OPT += -DCONSTANTDUSTSIZE -DBIGDUST=3
 
 #Damping conditions
 FARGO_OPT += -DSTOCKHOLM

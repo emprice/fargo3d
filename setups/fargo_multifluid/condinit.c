@@ -1,24 +1,24 @@
 #include "fargo3d.h"
 
 void _CondInit() {
-  
+
   int i,j,k;
   real r, omega;
-  
+
   real *rho  = Density->field_cpu;
   real *cs   = Energy->field_cpu;
   real *vphi = Vx->field_cpu;
   real *vr   = Vy->field_cpu;
-  
+
   real rhog, rhod;
   real vk;
-  
+
   i = j = k = 0;
-  
+
   for (k=0; k<Nz+2*NGHZ; k++) {
     for (j=0; j<Ny+2*NGHY; j++) {
       for (i=0; i<Nx+2*NGHX; i++) {
-	
+
 	r     = Ymed(j);
 	omega = sqrt(G*MSTAR/r/r/r);                       //Keplerian frequency
 	rhog  = SIGMA0*pow(r/R0,-SIGMASLOPE);              //Gas surface density
@@ -31,23 +31,23 @@ void _CondInit() {
 	  vr[l]    = 0.0;
 	  cs[l]    = ASPECTRATIO*pow(r/R0,FLARINGINDEX)*omega*r;
 	}
-	
+
 	if (Fluidtype == DUST) {
 	  rho[l]  = rhod;
 	  vphi[l] = omega*r;
 	  vr[l]   = 0.0;
 	  cs[l]   = 0.0;
 	}
-	
+
 	vphi[l] -= OMEGAFRAME*r;
-	
+
       }
     }
   }
 }
 
 void CondInit() {
-  
+
   int id_gas = 0;
   int feedback = YES;
   //We first create the gaseous fluid and store it in the array Fluids[]
@@ -72,12 +72,25 @@ void CondInit() {
 
   }
 
+#ifdef DRAGFORCE
+#ifdef CONSTANTDUSTSIZE
+  DustRadius[1] = DUSTRADIUS1 / R0_CGS;
+  DustMass[1] = ((4 * M_PI / 3) * pow(DUSTRADIUS1, 3) * DUSTDENSITY) / MSTAR_CGS;
+
+  DustRadius[2] = DUSTRADIUS2 / R0_CGS;
+  DustMass[2] = ((4 * M_PI / 3) * pow(DUSTRADIUS2, 3) * DUSTDENSITY) / MSTAR_CGS;
+
+  DustRadius[3] = DUSTRADIUS3 / R0_CGS;
+  DustMass[3] = ((4 * M_PI / 3) * pow(DUSTRADIUS3, 3) * DUSTDENSITY) / MSTAR_CGS;
+#else
   /*We now fill the collision matrix (Feedback from dust included)
    Note: ColRate() moves the collision matrix to the device.
    If feedback=NO, gas does not feel the drag force.*/
-  
+
   ColRate(INVSTOKES1, id_gas, 1, feedback);
   ColRate(INVSTOKES2, id_gas, 2, feedback);
   ColRate(INVSTOKES3, id_gas, 3, feedback);
+#endif
+#endif
 
 }
